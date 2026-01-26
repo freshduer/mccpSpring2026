@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文结构：互联关系 - 推荐系统的规模定律：Foundation-Expert Paradigm</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 { font-size: 1.6em; margin-bottom: 8px; color: #fff; }
+        .header p { opacity: 0.8; font-size: 1em; color: #cbd5e1; }
+        
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 120px);
+        }
+        
+        /* 网络图面板 */
+        .network-panel {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            overflow: auto;
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        
+        .network-svg {
+            width: 100%;
+            height: 700px;
+        }
+        
+        /* 详情面板 */
+        .detail-panel {
+            width: 420px;
+            background: #1e293b;
+            padding: 24px;
+            border-left: 1px solid #334155;
+            overflow-y: auto;
+            max-height: calc(100vh - 120px);
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .detail-title {
+            font-size: 1.25em;
+            color: #60a5fa;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #334155;
+            font-weight: bold;
+        }
+        .detail-section {
+            margin-bottom: 24px;
+        }
+        .detail-section h4 {
+            color: #94a3b8;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        .detail-text {
+            background: #0f172a;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            line-height: 1.7;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+        }
+        .detail-text em {
+            color: #fbbf24;
+            font-style: normal;
+            font-weight: bold;
+        }
+        
+        .connections-list {
+            list-style: none;
+        }
+        .connections-list li {
+            background: #0f172a;
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #334155;
+        }
+        .connections-list li:hover {
+            background: #334155;
+            transform: translateX(5px);
+            border-color: #60a5fa;
+        }
+        .arrow { color: #60a5fa; font-weight: bold; }
+        
+        /* 节点样式 */
+        .node {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .node:hover { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.5)); }
+        .node-circle {
+            stroke: #fff;
+            stroke-width: 2;
+            transition: all 0.3s;
+        }
+        .node-text {
+            fill: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        .node-label {
+            fill: #94a3b8;
+            font-size: 11px;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        /* 连线样式 */
+        .edge {
+            stroke: #475569;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+        .edge.highlighted {
+            stroke: #fbbf24;
+            stroke-width: 3;
+            opacity: 1;
+        }
+        
+        /* 图例 */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            backdrop-filter: blur(4px);
+            border: 1px solid #334155;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0;
+        }
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+        
+        .selected { 
+            stroke: #fbbf24 !important; 
+            stroke-width: 4 !important;
+            r: 35 !important;
+        }
+        
+        .instruction {
+            text-align: center;
+            padding: 12px;
+            background: #1e293b;
+            color: #94a3b8;
+            font-size: 0.9em;
+            border-bottom: 1px solid #334155;
+        }
+
+        /* 动画 */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        .pulse { animation: pulse 2s infinite; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Realizing Scaling Laws in Recommender Systems</h1>
+        <p>Foundation–Expert Paradigm for Hyperscale Model Deployment</p>
+    </div>
+    
+    <div class="instruction">点击任何节点查看其文本摘录及与其他部分的互联关系</div>
+    
+    <div class="main-container">
+        <div class="network-panel">
+            <svg class="network-svg" id="network">
+                <!-- 箭头定义 -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#475569"/>
+                    </marker>
+                    <marker id="arrowhead-gold" markerWidth="10" markerHeight="7" refX="25" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+                    </marker>
+                </defs>
+                
+                <!-- 连线 (Edges) -->
+                <g id="edges">
+                    <!-- Intro -> FM Seq -->
+                    <path class="edge" id="edge-intro-fm_seq" d="M 100,280 L 250,230" marker-end="url(#arrowhead)"/>
+                    <!-- FM In -> FM Seq -->
+                    <path class="edge" id="edge-fm_in-fm_seq" d="M 250,130 L 250,230" marker-end="url(#arrowhead)"/>
+                    <!-- FM Seq -> FM Al -->
+                    <path class="edge" id="edge-fm_seq-fm_al" d="M 250,230 L 250,330" marker-end="url(#arrowhead)"/>
+                    <!-- FM Al -> TAE -->
+                    <path class="edge" id="edge-fm_al-tae" d="M 250,330 L 400,330" marker-end="url(#arrowhead)"/>
+                    <!-- TAE -> EXP -->
+                    <path class="edge" id="edge-tae-exp" d="M 400,330 L 550,330" marker-end="url(#arrowhead)"/>
+                    <!-- SYS -> FM Al -->
+                    <path class="edge" id="edge-sys-fm_al" d="M 550,130 Q 400,130 250,330" marker-end="url(#arrowhead)"/>
+                    <!-- SYS -> EXP -->
+                    <path class="edge" id="edge-sys-exp" d="M 550,130 L 550,330" marker-end="url(#arrowhead)"/>
+                    <!-- EXP -> EXP_TR -->
+                    <path class="edge" id="edge-exp-exp_tr" d="M 550,330 L 700,230" marker-end="url(#arrowhead)"/>
+                    <!-- TAE -> EXP_GEN -->
+                    <path class="edge" id="edge-tae-exp_gen" d="M 400,330 Q 550,450 700,330" marker-end="url(#arrowhead)"/>
+                    <!-- EXP_TR -> ONLINE -->
+                    <path class="edge" id="edge-exp_tr-online" d="M 700,230 L 850,280" marker-end="url(#arrowhead)"/>
+                    <!-- EXP_GEN -> ONLINE -->
+                    <path class="edge" id="edge-exp_gen-online" d="M 700,330 L 850,280" marker-end="url(#arrowhead)"/>
+                    <!-- REL -> TAE -->
+                    <path class="edge" id="edge-rel-tae" d="M 100,430 Q 250,430 400,330" marker-end="url(#arrowhead)"/>
+                </g>
+                
+                <!-- 节点 (Nodes) -->
+                <g id="nodes">
+                    <!-- 区域标签 -->
+                    <text x="100" y="80" fill="#3b82f6" font-size="14" font-weight="bold">CONTEXT (背景)</text>
+                    <text x="325" y="80" fill="#8b5cf6" font-size="14" font-weight="bold">FOUNDATION MODEL (基础模型)</text>
+                    <text x="550" y="80" fill="#10b981" font-size="14" font-weight="bold">EXPERT & INFRA (专家与架构)</text>
+                    <text x="775" y="80" fill="#f43f5e" font-size="14" font-weight="bold">RESULTS (结果)</text>
+                    
+                    <!-- 背景节点 (Blue) -->
+                    <g class="node" data-id="abs" onclick="selectNode('abs')">
+                        <circle class="node-circle" cx="100" cy="130" r="30" fill="#3b82f6"/>
+                        <text class="node-text" x="100" y="134">ABS</text>
+                        <text class="node-label" x="100" y="175">Abstract</text>
+                    </g>
+                    <g class="node" data-id="intro" onclick="selectNode('intro')">
+                        <circle class="node-circle" cx="100" cy="280" r="30" fill="#3b82f6"/>
+                        <text class="node-text" x="100" y="284">INTRO</text>
+                        <text class="node-label" x="100" y="325">Introduction</text>
+                    </g>
+                    <g class="node" data-id="rel" onclick="selectNode('rel')">
+                        <circle class="node-circle" cx="100" cy="430" r="30" fill="#3b82f6"/>
+                        <text class="node-text" x="100" y="434">REL</text>
+                        <text class="node-label" x="100" y="475">Related Works</text>
+                    </g>
+                    
+                    <!-- FM 节点 (Purple) -->
+                    <g class="node" data-id="fm_in" onclick="selectNode('fm_in')">
+                        <circle class="node-circle" cx="250" cy="130" r="30" fill="#8b5cf6"/>
+                        <text class="node-text" x="250" y="134">IN</text>
+                        <text class="node-label" x="250" y="175">FM Input</text>
+                    </g>
+                    <g class="node" data-id="fm_seq" onclick="selectNode('fm_seq')">
+                        <circle class="node-circle" cx="250" cy="230" r="30" fill="#8b5cf6"/>
+                        <text class="node-text" x="250" y="234">HSTU</text>
+                        <text class="node-label" x="250" y="275">Modeling</text>
+                    </g>
+                    <g class="node" data-id="fm_al" onclick="selectNode('fm_al')">
+                        <circle class="node-circle" cx="250" cy="330" r="30" fill="#8b5cf6"/>
+                        <text class="node-text" x="250" y="334">MTML</text>
+                        <text class="node-label" x="250" y="375">Alignment</text>
+                    </g>
+                    <g class="node" data-id="tae" onclick="selectNode('tae')">
+                        <circle class="node-circle pulse" cx="400" cy="330" r="35" fill="#d946ef"/>
+                        <text class="node-text" x="400" y="334">TAE</text>
+                        <text class="node-label" x="400" y="380">Target-Aware Emb.</text>
+                    </g>
+
+                    <!-- Expert & Sys 节点 (Green) -->
+                    <g class="node" data-id="sys" onclick="selectNode('sys')">
+                        <circle class="node-circle" cx="550" cy="130" r="30" fill="#10b981"/>
+                        <text class="node-text" x="550" y="134">SYS</text>
+                        <text class="node-label" x="550" y="175">HyperCast</text>
+                    </g>
+                    <g class="node" data-id="exp" onclick="selectNode('exp')">
+                        <circle class="node-circle" cx="550" cy="330" r="30" fill="#10b981"/>
+                        <text class="node-text" x="550" y="334">EXP</text>
+                        <text class="node-label" x="550" y="375">Expert Design</text>
+                    </g>
+
+                    <!-- Results 节点 (Red) -->
+                    <g class="node" data-id="exp_tr" onclick="selectNode('exp_tr')">
+                        <circle class="node-circle" cx="700" cy="230" r="30" fill="#f43f5e"/>
+                        <text class="node-text" x="700" y="234">TR</text>
+                        <text class="node-label" x="700" y="275">Transfer Ratio</text>
+                    </g>
+                    <g class="node" data-id="exp_gen" onclick="selectNode('exp_gen')">
+                        <circle class="node-circle" cx="700" cy="330" r="30" fill="#f43f5e"/>
+                        <text class="node-text" x="700" y="334">GEN</text>
+                        <text class="node-label" x="700" y="375">Generalization</text>
+                    </g>
+                    <g class="node" data-id="online" onclick="selectNode('online')">
+                        <circle class="node-circle" cx="850" cy="280" r="35" fill="#e11d48"/>
+                        <text class="node-text" x="850" y="284">META</text>
+                        <text class="node-label" x="850" y="330">Online Perf.</text>
+                    </g>
+                </g>
+            </svg>
+            
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> 背景与介绍 (Context)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> 基础模型 (Foundation)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div> 专家与架构 (Expert/Sys)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#f43f5e"></div> 验证结果 (Results)</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#d946ef"></div> 核心机制 (TAE)</div>
+            </div>
+        </div>
+        
+        <div class="detail-panel" id="detail-panel">
+            <div class="detail-title" id="detail-title">选择节点查看详情</div>
+            <div id="detail-content">
+                <p style="color:#64748b;">点击网络图中的任何节点，查看其在论文中的文本摘录以及与其他模块的连接逻辑。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nodeData = {
+            abs: {
+                title: "摘要 (Abstract)",
+                text: `"我们提出了 <em>Foundation-Expert Paradigm</em>：一个旨在开发和部署超大规模推荐基础模型（FM）的框架。中央 FM 在长期的、跨页面的、多模态用户数据上训练，以学习可泛化的知识，然后通过 <em>Target-Aware Embeddings</em> 高效转移到轻量级的、特定页面的 '专家' 模型中。"`,
+                connections: [
+                    {to: "intro", desc: "引出工业界部署超大规模模型的挑战"},
+                    {to: "tae", desc: "定义了核心的知识转移机制"}
+                ]
+            },
+            intro: {
+                title: "引言 (Introduction)",
+                text: `"尽管扩展推荐模型具有巨大潜力，但在大规模生产环境中部署它们面临挑战：训练昂贵、应用多样以及严苛的延迟限制。我们的方法解耦了通用知识学习与任务特定适配，解决了生产瓶颈。"`,
+                connections: [
+                    {to: "fm_seq", desc: "促使采用高效的 HSTU 架构来处理长序列"},
+                    {to: "sys", desc: "引出 HyperCast 基础设施作为支撑"}
+                ]
+            },
+            rel: {
+                title: "相关工作 (Related Works)",
+                text: `"以往工作主要关注独立的模型改进。我们的 FM 专注于 <em>Target-Aware Embeddings</em>，并在在线流式设置中以高频（分钟级）更新，持续适应最新的用户互动。"`,
+                connections: [
+                    {to: "tae", desc: "对比并改进了传统稳定的用户嵌入方法"}
+                ]
+            },
+            fm_in: {
+                title: "FM 输入 (Foundation Model Input)",
+                text: `"输入特征分为两类：<em>Main Features</em>（用于生成目标感知表示的用户互动历史和目标物品信息）和 <em>Auxiliary Features</em>（辅助对齐的非序列化数据）。"`,
+                connections: [
+                    {to: "fm_seq", desc: "主特征输入到 HSTU 模块进行序列建模"}
+                ]
+            },
+            fm_seq: {
+                title: "HSTU 建模 (Sequential Modeling)",
+                text: `"利用 <em>Hierarchical Sequential Transduction Units (HSTU)</em>，这是一种为工业规模推荐系统设计的 Transformer 变体。通过简化架构（直接相加嵌入、移除自回归损失），效率提升了 50%。"`,
+                connections: [
+                    {to: "fm_al", desc: "HSTU 输出的嵌入进入对齐阶段"},
+                    {to: "sys", desc: "受 HyperCast 优化（如算子协同设计）支持"}
+                ]
+            },
+            fm_al: {
+                title: "FM 对齐 (Alignment & MTML)",
+                text: `"FM 使用多任务多标签（MTML）学习目标进行优化。<em>Main Loss</em> 确保学习到强大的通用表示；<em>Auxiliary Loss</em> 针对特定页面的目标进行对齐。"`,
+                connections: [
+                    {to: "tae", desc: "对齐后的输出即为 Target-Aware Embeddings"},
+                    {to: "sys", desc: "HyperCast 提供高频率的模型更新对齐"}
+                ]
+            },
+            tae: {
+                title: "目标感知嵌入 (Target-Aware Embeddings)",
+                text: `"核心知识转移机制。与传统的总结用户行为的稳定嵌入不同，TAE <em>动态捕捉用户对特定候选物品的上下文兴趣</em>，为下游任务提供更有效的信号。"`,
+                connections: [
+                    {to: "exp", desc: "作为专家模型的主要输入特征"},
+                    {to: "exp_gen", desc: "强大的表达能力支撑了在未见任务上的泛化"}
+                ]
+            },
+            sys: {
+                title: "HyperCast 基础设施 (Infrastructure)",
+                text: `"HyperCast 驱动整个生命周期。它实现了 <em>解耦训练架构</em>（物化嵌入）、<em>高新鲜度</em>（30分钟数据延迟）和 <em>多级推理优化</em>（将推理节点需求减少到1/3）。"`,
+                connections: [
+                    {to: "fm_al", desc: "支持 FM 的流式对齐训练"},
+                    {to: "exp", desc: "支持专家模型的独立敏捷迭代"}
+                ]
+            },
+            exp: {
+                title: "专家模型设计 (Expert Design)",
+                text: `"专家模型比传统模型轻量得多（20-40%大小）。它们通过 <em>FM Fusion Module</em> 将 FM 提供的长期兴趣（TAE）与专家自身的小型 HSTU 捕捉的短期兴趣结合。"`,
+                connections: [
+                    {to: "exp_tr", desc: "设计用于评估从 FM 到专家的转移效率"}
+                ]
+            },
+            exp_tr: {
+                title: "转移效率 (Transfer Ratio)",
+                text: `"实验证明，FM 的提升能以高比例（0.64 - 1.0）转移到多个下游专家，这意味着只需集中改进一个 FM，即可同时提升整个生态系统。"`,
+                connections: [
+                    {to: "online", desc: "高效的转移直接转化为在线指标的提升"}
+                ]
+            },
+            exp_gen: {
+                title: "泛化能力 (Generalization)",
+                text: `"即使在训练期间未见过的 Surface D 任务上，带有 FM 嵌入的专家也取得了显著提升。这证明了 FM 学习到了广泛有用的知识，实现了 '一次构建，到处使用' 的愿景。"`,
+                connections: [
+                    {to: "online", desc: "确保了在多样化推荐场景下的稳健表现"}
+                ]
+            },
+            online: {
+                title: "Meta 在线表现 (Online Performance)",
+                text: `"已在 Meta 多个核心推荐场景部署，每日处理数百亿次请求。在保持基础设施中性（延迟/CPU无损）的同时，显著提升了用户参与度和消费指标。"`,
+                connections: []
+            }
+        };
+
+        function selectNode(id) {
+            // 清除之前的选择
+            document.querySelectorAll('.node-circle').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.edge').forEach(e => {
+                e.classList.remove('highlighted');
+                e.setAttribute('marker-end', 'url(#arrowhead)');
+            });
+            
+            // 高亮选中节点
+            const node = document.querySelector(`[data-id="${id}"] .node-circle`);
+            if (node) node.classList.add('selected');
+            
+            // 高亮连接的边
+            const data = nodeData[id];
+            if (data && data.connections) {
+                data.connections.forEach(conn => {
+                    const edgeId = `edge-${id}-${conn.to}`;
+                    const edge = document.getElementById(edgeId);
+                    if (edge) {
+                        edge.classList.add('highlighted');
+                        edge.setAttribute('marker-end', 'url(#arrowhead-gold)');
+                    }
+                    
+                    // 反向查找（如果需要双向高亮）
+                    const revEdgeId = `edge-${conn.to}-${id}`;
+                    const revEdge = document.getElementById(revEdgeId);
+                    if (revEdge) {
+                        revEdge.classList.add('highlighted');
+                        revEdge.setAttribute('marker-end', 'url(#arrowhead-gold)');
+                    }
+                });
+            }
+            
+            // 更新详情面板
+            updateDetailPanel(id);
+        }
+
+        function updateDetailPanel(id) {
+            const data = nodeData[id];
+            if (!data) return;
+            
+            document.getElementById('detail-title').textContent = data.title;
+            
+            let html = `
+                <div class="detail-section">
+                    <h4>文本摘录 (Text Excerpt)</h4>
+                    <div class="detail-text">${data.text}</div>
+                </div>
+            `;
+            
+            if (data.connections && data.connections.length > 0) {
+                html += `
+                    <div class="detail-section">
+                        <h4>连接逻辑 (Interconnections)</h4>
+                        <ul class="connections-list">
+                            ${data.connections.map(c => `
+                                <li onclick="selectNode('${c.to}')">
+                                    <span class="arrow">→</span>
+                                    <span><strong>${nodeData[c.to]?.title.split(' ')[0] || c.to}</strong>: ${c.desc}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('detail-content').innerHTML = html;
+        }
+
+        // 初始化选中摘要
+        window.onload = () => selectNode('abs');
+    </script>
+</body>
+</html>

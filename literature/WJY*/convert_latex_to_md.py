@@ -102,6 +102,9 @@ def clean_text(text):
 if __name__ == "__main__":
     input_file = sys.argv[1] if len(sys.argv) > 1 else "Expert-deploy/arXiv-2508.02929v2/paper.tex"
     output_file = sys.argv[2] if len(sys.argv) > 2 else "FoundationExpert_paper.md"
+
+    input_file = sys.argv[1] if len(sys.argv) > 1 else "hllm-creator/arXiv-2508.02929v2/paper.tex"
+    output_file = sys.argv[2] if len(sys.argv) > 2 else "hllm-creator_paper.md"
     
     with open(input_file, 'r', encoding='utf-8') as f:
         latex_content = f.read()

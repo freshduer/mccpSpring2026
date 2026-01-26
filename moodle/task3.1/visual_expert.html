@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文大纲：分层结构 - Foundation–Expert Paradigm</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        
+        /* 分层列表样式 */
+        .outline-tree {
+            list-style: none;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .level-1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+        .level-1:first-child { margin-top: 0; }
+        .level-1::before {
+            content: "•";
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .level-2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 15px;
+            margin-left: 25px;
+            display: flex;
+            align-items: center;
+        }
+        .level-2::before {
+            content: "○";
+            margin-right: 10px;
+            font-weight: 900;
+        }
+        
+        .level-3 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #475569;
+            margin-top: 8px;
+            margin-left: 50px;
+            display: flex;
+            align-items: center;
+        }
+        .level-3::before {
+            content: "▹";
+            margin-right: 8px;
+        }
+        
+        .level-4 {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-top: 5px;
+            margin-left: 75px;
+            font-style: italic;
+        }
+        
+        /* 交互效果 */
+        li {
+            transition: transform 0.2s ease;
+            cursor: default;
+        }
+        li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Realizing Scaling Laws in Recommender Systems</h1>
+            <p class="subtitle">Foundation–Expert Paradigm for Hyperscale Model Deployment</p>
+        </header>
+        
+        <ul class="outline-tree">
+            <li class="level-1">Abstract (摘要)</li>
+            
+            <li class="level-1">Introduction (引言)</li>
+            
+            <li class="level-1">Related works (相关工作)</li>
+            <li class="level-2">Long User History Modeling</li>
+            <li class="level-2">Learning rich representations for downstream tasks</li>
+            
+            <li class="level-1">Methods (方法论)</li>
+            <li class="level-2">Foundation Model Design (基础模型设计)</li>
+            <li class="level-3">Input (输入特征)</li>
+            <li class="level-3">Target-aware Sequential Modeling (目标感知序列建模)</li>
+            <li class="level-3">Foundation Model Alignment (基础模型对齐)</li>
+            <li class="level-3">Efficiency Optimizations of Scalable Foundation Model (效率优化)</li>
+            <li class="level-2">Expert Design (专家模型设计)</li>
+            <li class="level-2">System Deployment (系统部署)</li>
+            <li class="level-3">Decoupled Training Architecture (解耦训练架构)</li>
+            <li class="level-3">High Freshness (高新鲜度)</li>
+            <li class="level-3">Multi-tier Inference Service Deployment (多级推理服务部署)</li>
+            <li class="level-3">Agile Development and Version Management (敏捷开发与版本管理)</li>
+            
+            <li class="level-1">Experiment (实验验证)</li>
+            <li class="level-2">Experiment Setup (实验设置)</li>
+            <li class="level-2">Effectiveness of Target-Aware Embeddings (目标感知嵌入的有效性)</li>
+            <li class="level-2">Foundation-to-Expert Transfer Efficiency (知识转移效率)</li>
+            <li class="level-2">Generalization to Unseen Tasks (对未见任务的泛化)</li>
+            <li class="level-2">Online Performance (在线表现)</li>
+            
+            <li class="level-1">Conclusion (结论)</li>
+        </ul>
+        
+        <div class="footer">
+            <p>© 2026 MCCP6020 Spring - Visualization Task</p>
+        </div>
+    </div>
+</body>
+</html>
