@@ -23,6 +23,9 @@ pre1/paper2slides_beamer/trial/implement/Paper2Slides/
 LLM/
 LLM dummy/
 
+# Local meetings (not synced to GitHub)
+meetings/
+
 # Ignore Python bytecode
 __pycache__/
 *.pyc
