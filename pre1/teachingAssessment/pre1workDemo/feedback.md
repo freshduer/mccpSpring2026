@@ -4,85 +4,17 @@
 
 After the AI agent generates your presentation outline (via `genOutline.md`), review it carefully and provide your feedback below. Be as specific as possible — the AI will use your feedback to revise the outline and generate your HTML slides.
 
----
 
-## Overall Impression
+check the pptx files in mccpSpring2026/pre1/teachingAssessment/pre1workDemo/sample_slides
+and turn them into md file and also create a style.md to describe their styles and formats that can be recaptured in html 
 
-<!-- Rate the overall quality of the generated outline (1-5 stars) and explain briefly -->
+the outline generated is fine - take a look at materials in mccpSpring2026/writing and create an updatedOutline.md to strengthen the part on learning about writing 
 
-Rating: ___/5
+create updated_slide_plan.md based on mccpSpring2026/pre1/teachingAssessment/pre1workDemo/slide_plan.md, updatedOutline.md and style.md 
 
-Comments:
+then based on the updated_slide_plan.md, updatedOutline.md, mccpSpring2026/pre1/teachingAssessment/pre1workDemo/papers/KV_flow_paper_full.html to create slides4pre1demo.html 
 
+commit and push all changes to github 
 
----
-
-## Content Accuracy
-
-<!-- Is the outline accurate to your paper? Are there any misinterpretations or missing points? -->
-
-- [ ] The introduction accurately represents the paper's topic and context
-- [ ] The key findings are correctly summarized
-- [ ] The significance section captures the real importance of the research
-- [ ] The "impact on my research" section makes sense for my situation
-
-Issues or corrections:
-
-
----
-
-## Accessibility for Non-Specialists
-
-<!-- Would a non-specialist audience understand the outline as written? -->
-
-- [ ] Technical terms are adequately explained or avoided
-- [ ] Metaphors/examples are appropriate and helpful
-- [ ] The content is engaging for a general audience
-
-Suggestions:
-
-
----
-
-## Structure and Flow
-
-<!-- Is the presentation well-organized? Does it flow logically? -->
-
-- [ ] The opening hook is engaging
-- [ ] Transitions between sections are smooth
-- [ ] The timing allocation across sections seems right
-- [ ] The closing is effective
-
-Suggestions:
-
-
----
-
-## Visual Aid Preferences
-
-<!-- What specific visuals do you want on your slides? -->
-
-- Preferred color scheme/style:
-- Specific diagrams or charts to include:
-- Key quotes from the paper to highlight:
-- Any images or visuals you want:
-- Other design preferences:
-
-
----
-
-## Specific Changes Requested
-
-<!-- List any specific changes you want the AI to make -->
-
-1. 
-2. 
-3. 
-
----
-
-## Additional Notes
-
-<!-- Anything else the AI should know when revising -->
-
+publish the html to github pages and return a URL link for public access 
 
