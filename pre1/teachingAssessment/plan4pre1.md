@@ -68,6 +68,9 @@ Presenters must:
    - Voice-record your practice (use otter.ai or upload audio) and review
    - Focus on: body language, eye contact, pacing, timing (~8 minutes)
    - Aim for natural delivery with emphasis on content words
+   - **Review the Delivery Tips** for research-backed strategies:
+     - [Interactive Delivery Tips (gamified web page)](https://tesolchina.github.io/mccpSpring2026/pre1/teachingAssessment/deliveryTips.html) — 7 skill levels with challenges and quizzes
+     - Written reference: `pre1/teachingAssessment/deliveryTips.md` — detailed guide with 10 source articles
 
 ### As a Reviewer
 
@@ -86,20 +89,24 @@ Presenters must:
    - Students who haven't yet generated their outline can do so in class
    - Review and provide feedback on the generated outline
 
-2. **3-minute delivery practice**
+2. **Delivery tips briefing**
+   - Instructor-led walkthrough of key delivery skills using the [Delivery Tips interactive guide](https://tesolchina.github.io/mccpSpring2026/pre1/teachingAssessment/deliveryTips.html)
+   - Key topics: body language, the 5-second eye contact technique, voice modulation, strategic pausing, opening hooks, and audience interaction
+
+3. **3-minute delivery practice**
    - Each student delivers a short segment of their presentation (~3 minutes)
    - Focus areas: **delivery, body language, pace** (not content completeness)
    - Practice in a face-to-face setting
    - Voice-record the practice for later self-review
 
-3. **Peer feedback on delivery**
+4. **Peer feedback on delivery**
    - After each practice segment, peers give brief oral feedback on:
      - Eye contact and posture
      - Volume and clarity
      - Pace and use of pauses
      - Whether the speaker reads from notes vs. speaks naturally
 
-4. **Review and refine HTML slides**
+5. **Review and refine HTML slides**
    - Check slide design and readability
    - Make final adjustments via AI or direct HTML editing
 
@@ -173,6 +180,15 @@ HTML slides can also be published via **GitHub Pages**, making them easily share
 
 ---
 
+## Delivery Resources
+
+For detailed, research-backed guidance on presentation delivery, see:
+
+- **[Delivery Tips — Interactive Guide](https://tesolchina.github.io/mccpSpring2026/pre1/teachingAssessment/deliveryTips.html)** — A gamified web page with 7 skill levels covering body language, eye contact, voice & pacing, opening hooks, audience interaction, managing nerves, and Q&A. Includes challenges and quizzes.
+- **`pre1/teachingAssessment/deliveryTips.md`** — A written reference guide with the same content plus a reading list of 10 academic sources on presentation delivery.
+
+---
+
 ## Key Reminders
 
 - **Do not read from scripts** — this will result in a failing grade
@@ -180,5 +196,5 @@ HTML slides can also be published via **GitHub Pages**, making them easily share
 - **Practice speaking from your slides** — slides should support, not replace, your speech
 - **Focus on non-specialist audience** — avoid jargon, use metaphors/visuals/examples to explain technical concepts
 - **Time management** — practice to stay within 8 minutes
-- **Body language matters** — eye contact, gestures, posture, confident stance
+- **Body language matters** — review the [Delivery Tips](https://tesolchina.github.io/mccpSpring2026/pre1/teachingAssessment/deliveryTips.html) for eye contact, gestures, posture, and confident stance
 - **Peer review is part of the assessment** — take reviewing seriously
