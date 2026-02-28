@@ -11,31 +11,36 @@
       --primary: #000;
       --neutral-bg: #fff;
       --neutral-text: #000;
+      --slide-pad: 2.5rem;
     }
     .reveal { background-color: var(--neutral-bg); }
     .reveal .slides { text-align: left; }
-    .reveal .slides section { padding: 0 2rem; }
+    .reveal .slides section { padding: 0 var(--slide-pad); box-sizing: border-box; }
     .reveal h1, .reveal h2 { color: var(--primary); font-weight: 700; }
-    .reveal h1 { font-size: 2.4em; }
-    .reveal h2 { font-size: 1.85em; margin-bottom: 0.6em; }
-    .reveal p, .reveal li { color: var(--neutral-text); font-size: 1.55rem; line-height: 1.4; }
-    .reveal ul { margin-top: 0.5em; }
-    .reveal li { margin-bottom: 0.35em; }
+    .reveal h1 { font-size: 2.4em; margin: 0 0 0.5em 0; }
+    .reveal h2 { font-size: 1.85em; margin: 0 0 0.6em 0; }
+    .reveal p, .reveal li { color: var(--neutral-text); font-size: 1.55rem; line-height: 1.45; margin: 0; }
+    .reveal ul { margin: 0.4em 0 0 1.2em; padding: 0; list-style-position: outside; }
+    .reveal li { margin-bottom: 0.4em; }
     .reveal strong { color: var(--primary); }
     .reveal .slide-number { color: var(--primary); font-size: 0.5em; }
-    .reveal .title-slide h1 { font-size: 2em; }
-    .reveal .title-slide p { font-size: 1.35rem; color: var(--neutral-text); }
+    .reveal .title-slide h1 { font-size: 2em; margin-bottom: 0.8em; }
+    .reveal .title-slide p { font-size: 1.35rem; color: var(--neutral-text); margin: 0.4em 0; }
     .reveal .center { text-align: center; }
-    .reveal .takeaway { font-size: 1.7rem; font-weight: 600; color: var(--primary); }
-    .slide-fig { margin: 0.75rem 0; text-align: center; }
-    .slide-fig img { width: 100%; height: 400px; object-fit: contain; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .slide-fig figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.4rem; }
-    table.simple { width: 100%; border-collapse: collapse; font-size: 1.15rem; margin: 0.5rem 0; }
-    table.simple th, table.simple td { border: 1px solid #333; padding: 0.4rem 0.6rem; text-align: left; }
+    .reveal .takeaway { font-size: 1.7rem; font-weight: 600; color: var(--primary); margin: 0.5em 0 0 0; line-height: 1.4; }
+    .slide-fig { margin: 0; text-align: center; }
+    .slide-fig img { width: 100%; height: 400px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; display: block; }
+    .slide-fig figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.5rem; text-align: center; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 1.15rem; margin: 0.6rem 0 0 0; }
+    table.simple th, table.simple td { border: 1px solid #333; padding: 0.5rem 0.75rem; text-align: left; }
     table.simple th { background: #fff; color: #000; }
-    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 0.75rem 0; }
-    .fig-grid img { width: 100%; height: 340px; object-fit: contain; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .fig-grid figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.35rem; }
+    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0.75rem 0 0 0; align-items: start; }
+    .fig-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
+    .fig-grid img { width: 100%; height: 340px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; display: block; }
+    .fig-grid figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.5rem; text-align: center; }
+    .two-col { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; align-items: start; margin-top: 0.5rem; }
+    .two-col .col-text { min-width: 0; }
+    .two-col .col-fig { min-width: 0; display: flex; flex-direction: column; align-items: center; }
   </style>
 </head>
 <body>
@@ -47,13 +52,13 @@
         <h1>LONGER</h1>
         <p>Scaling Up Long Sequence Modeling in Industrial Recommenders</p>
         <p>Chai, Ren, Xiao, Yang et al. (ByteDance) · RecSys '25</p>
-        <p style="margin-top: 2rem;">[Wenjun Yu] · [2026.3.2]</p>
+        <p style="margin-top: 2.5rem;">[Wenjun Yu] · [2026.3.2]</p>
       </section>
 
       <!-- Slide 2: Motivation -->
       <section>
         <h2>Motivation</h2>
-        <ul>
+        <ul style="margin-top:0.4em;">
           <li>Recommender systems rely on <strong>user behavior history</strong> (clicks, purchases) to predict what to show next.</li>
           <li>Longer histories contain <strong>more useful information</strong>.</li>
           <li>But most industrial systems <strong>cannot use the full sequence</strong>—too slow and expensive.</li>
@@ -65,52 +70,56 @@
       <!-- Slide 3: Core Idea + Model Architecture -->
       <section>
         <h2>Core Idea</h2>
-        <div style="display:grid; grid-template-columns: 1fr 1.4fr; gap: 1.5rem; align-items: center;">
-          <div>
-            <p style="font-size:1.25rem; margin-bottom:0.6rem;"><strong>Challenge:</strong> Standard Transformers are too expensive for very long sequences.</p>
-            <p style="font-size:1.25rem; margin-bottom:0.4rem;"><strong>Three key ideas:</strong></p>
-            <ul style="font-size:1.25rem; margin-bottom:0;">
-              <li><strong>1.</strong> Global tokens — summarize the sequence, capture long-range dependencies.</li>
-              <li><strong>2.</strong> Token merging — reduce tokens, lower computation cost.</li>
-              <li><strong>3.</strong> Hybrid attention — balance efficiency and modeling capability.</li>
+        <div class="two-col" style="grid-template-columns: 1fr 1.35fr;">
+          <div class="col-text">
+            <p style="font-size:1.25rem; margin-bottom:0.5rem;"><strong>Challenge:</strong> Standard Transformers are too expensive for very long sequences.</p>
+            <p style="font-size:1.25rem; margin-bottom:0.35rem;"><strong>Three key ideas:</strong></p>
+            <ul style="font-size:1.2rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.3em;"><strong>1.</strong> Global tokens — summarize the sequence, capture long-range dependencies.</li>
+              <li style="margin-bottom:0.3em;"><strong>2.</strong> Token merging — reduce tokens, lower computation cost.</li>
+              <li style="margin-bottom:0.3em;"><strong>3.</strong> Hybrid attention — balance efficiency and modeling capability.</li>
             </ul>
-            <p style="font-size:1.2rem; margin-top:0.5rem;"><strong>Together:</strong> Efficient modeling of sequences up to 10k items.</p>
+            <p style="font-size:1.2rem; margin-top:0.6rem;"><strong>Together:</strong> Efficient modeling of sequences up to 10k items.</p>
           </div>
-          <figure class="slide-fig" style="margin:0;">
-            <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" style="height:400px;" />
-            <figcaption>LONGER Model Architecture</figcaption>
-          </figure>
+          <div class="col-fig">
+            <figure class="slide-fig">
+              <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" style="height:400px;" />
+              <figcaption>LONGER Model Architecture</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       <!-- Slide 4: Results + Scaling figures -->
       <section>
         <h2>Results</h2>
-        <p style="font-size:1.25rem; margin-bottom:0.6rem;">LONGER improves both <strong>accuracy</strong> and <strong>efficiency</strong>.</p>
-        <div style="display:grid; grid-template-columns: 0.95fr 1.05fr; gap: 1.5rem; align-items: center;">
-          <div>
-            <ul style="font-size:1.25rem; margin-bottom:0.5rem;">
-              <li><strong>Offline:</strong> +1.57% AUC vs base; +0.21% vs Transformer.</li>
-              <li><strong>Online:</strong> Douyin Ads +1–2%; E-Commerce +4–8%.</li>
-              <li><strong>Efficiency:</strong> ~50% FLOPs cut.</li>
+        <p style="font-size:1.25rem; margin:0 0 0.5rem 0;">LONGER improves both <strong>accuracy</strong> and <strong>efficiency</strong>.</p>
+        <div class="two-col" style="grid-template-columns: 1fr 1.1fr;">
+          <div class="col-text">
+            <ul style="font-size:1.2rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.35em;"><strong>Offline:</strong> +1.57% AUC vs base; +0.21% vs Transformer.</li>
+              <li style="margin-bottom:0.35em;"><strong>Online:</strong> Douyin Ads +1–2%; E-Commerce +4–8%.</li>
+              <li style="margin-bottom:0.35em;"><strong>Efficiency:</strong> ~50% FLOPs cut.</li>
             </ul>
-            <table class="simple" style="font-size:1.1rem;">
+            <table class="simple">
               <tr><th>Model</th><th>ΔAUC</th></tr>
               <tr><td>Transformer</td><td>+1.36%</td></tr>
               <tr><td><strong>LONGER</strong></td><td><strong>+1.57%</strong></td></tr>
             </table>
           </div>
-          <figure class="slide-fig" style="margin:0;">
-            <img src="papers/longer/image/TokenAuc.png" alt="Scaling with sequence length" style="height:380px;" />
-            <figcaption>Scaling with sequence length (AUC)</figcaption>
-          </figure>
+          <div class="col-fig">
+            <figure class="slide-fig">
+              <img src="papers/longer/image/TokenAuc.png" alt="Scaling with sequence length" style="height:380px;" />
+              <figcaption>Scaling with sequence length (AUC)</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       <!-- Slide 5: Scaling (Params + FLOPs) -->
       <section>
         <h2>Scaling & Efficiency</h2>
-        <p style="font-size:1.3rem; margin-bottom:0.75rem;">Performance scales with <strong>length</strong>, <strong>FLOPs</strong>, <strong>params</strong> (R² ≈ 0.97–0.99).</p>
+        <p style="font-size:1.25rem; margin:0 0 0.5rem 0;">Performance scales with <strong>length</strong>, <strong>FLOPs</strong>, <strong>params</strong> (R² ≈ 0.97–0.99).</p>
         <div class="fig-grid">
           <figure>
             <img src="papers/longer/image/ParamsAuc.png" alt="Params vs AUC" style="height:340px;" />
@@ -126,7 +135,7 @@
       <!-- Slide 6: Significance -->
       <section>
         <h2>Significance</h2>
-        <ul>
+        <ul style="margin-top:0.4em;">
           <li><strong>Practical path</strong> to end-to-end ultra-long sequence modeling under industrial constraints.</li>
           <li><strong>Scaling laws</strong> validated in recommendation (length, FLOPs, params).</li>
           <li><strong>Deployed</strong> at ByteDance across advertising and e-commerce; billions of users.</li>
@@ -136,7 +145,7 @@
       <!-- Slide 7: Impact on my research -->
       <section>
         <h2>Impact on My Research</h2>
-        <ul>
+        <ul style="margin-top:0.4em;">
           <li>Adopt <strong>global tokens</strong> for stabilizing attention in long contexts.</li>
           <li>Use <strong>token merge + InnerTrans</strong> for efficiency.</li>
           <li>Explore <strong>hybrid attention</strong> (cross + self) and <strong>KV cache</strong> for inference.</li>
@@ -147,7 +156,7 @@
       <!-- Slide 8: Writing strategies -->
       <section>
         <h2>Writing Strategies I Learned</h2>
-        <ul>
+        <ul style="margin-top:0.4em;">
           <li><strong>Clear problem and three contributions</strong> — Intro states why ultra-long sequences matter, why two-stage is limiting, and three separated contributions with their own sections.</li>
           <li><strong>Results tied to design</strong> — Each claim backed by a table or figure (offline, ablation, scaling, online A/B).</li>
           <li><strong>Industrial validation</strong> — Online A/B across formats; deployment at scale stated explicitly.</li>
@@ -161,7 +170,7 @@
       </section>
 
       <section class="center">
-        <h1 style="font-size: 2.4em;">Thank you</h1>
+        <h1 style="font-size: 2.4em; margin: 0;">Thank you</h1>
         <p style="margin-top: 1.5rem; font-size: 1.6rem;">Questions?</p>
       </section>
 
