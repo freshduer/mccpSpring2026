@@ -8,44 +8,105 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/white.css" />
   <style>
     :root {
-      --primary: #000;
-      --neutral-bg: #fff;
-      --neutral-text: #000;
-      --slide-pad: 1.8rem;
+      --accent:  #1d4ed8;
+      --primary: #111827;
+      --muted:   #6b7280;
+      --bg:      #ffffff;
+      --slide-pad: 2.2rem;
     }
-    .reveal { background-color: var(--neutral-bg); }
+
+    /* ── Base ── */
+    .reveal { background: var(--bg); font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
     .reveal .slides { text-align: left; }
-    .reveal .slides section { padding: 0.2rem var(--slide-pad) 0; box-sizing: border-box; overflow: hidden; }
-    .reveal h1, .reveal h2 { color: var(--primary); font-weight: 700; }
-    .reveal h1 { font-size: 2.2em; margin: 0 0 0.4em 0; }
-    .reveal h2 { font-size: 1.65em; margin: 0 0 0.4em 0; }
-    .reveal p, .reveal li { color: var(--neutral-text); font-size: 1.35rem; line-height: 1.4; margin: 0; }
-    .reveal ul { margin: 0.3em 0 0 1.2em; padding: 0; list-style-position: outside; }
-    .reveal li { margin-bottom: 0.35em; }
-    .reveal strong { color: var(--primary); }
-    .reveal .slide-number { color: var(--primary); font-size: 0.5em; }
-    .reveal .title-slide h1 { font-size: 2em; margin-bottom: 0.7em; }
-    .reveal .title-slide p { font-size: 1.25rem; color: var(--neutral-text); margin: 0.35em 0; }
+    .reveal .slides section {
+      padding: 0.4rem var(--slide-pad) 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* ── Headings ── */
+    .reveal h1 { font-size: 2.2em; font-weight: 800; color: var(--primary); margin: 0 0 0.4em 0; }
+    .reveal h2 {
+      font-size: 1.68em; font-weight: 800; color: var(--primary);
+      margin: 0 0 0.42em 0;
+      padding-bottom: 0.18em;
+      border-bottom: 3px solid var(--accent);
+    }
+    /* Center slides: keep border but center-align */
+    .reveal .center h2 { text-align: center; }
+
+    /* ── Body text ── */
+    .reveal p, .reveal li {
+      color: var(--primary); font-size: 1.28rem; line-height: 1.48; margin: 0;
+    }
+    .reveal ul { margin: 0.3em 0 0 1.3em; padding: 0; list-style-position: outside; }
+    .reveal li { margin-bottom: 0.32em; }
+    .reveal strong { color: var(--accent); font-weight: 700; }
+
+    /* ── Title slide ── */
+    .reveal .title-slide { display: flex; flex-direction: column; justify-content: center; }
+    .reveal .title-slide h1 {
+      font-size: 2.6em; color: var(--primary); border: none;
+      margin-bottom: 0.1em; padding-bottom: 0;
+    }
+    .reveal .title-slide .title-rule {
+      width: 72px; height: 4px; background: var(--accent);
+      margin: 0.5rem auto 1.2rem auto; border-radius: 2px;
+    }
+    .reveal .title-slide p { font-size: 1.3rem; color: #374151; margin: 0.3em 0; }
+    .reveal .title-slide .author { font-size: 1.15rem; color: var(--muted); margin-top: 1.8rem; }
+
+    /* ── Misc ── */
+    .reveal .slide-number { color: var(--muted); font-size: 0.5em; }
     .reveal .center { text-align: center; }
-    .reveal .takeaway { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin: 0.5em 0 0 0; line-height: 1.4; }
+    .reveal .takeaway {
+      font-size: 1.55rem; font-weight: 600; color: var(--primary);
+      margin: 0.7em 0 0 0; line-height: 1.5;
+    }
+
+    /* ── Figures ── */
     .slide-fig { margin: 0; text-align: center; }
-    .slide-fig img { width: 100%; max-height: 350px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
-    .slide-fig figcaption { font-size: 1rem; color: #444; font-weight: 500; margin-top: 0.35rem; text-align: center; }
-    table.simple { width: 100%; border-collapse: collapse; font-size: 1.1rem; margin: 0.4rem 0 0 0; }
-    table.simple th, table.simple td { border: 1px solid #333; padding: 0.55rem 0.9rem; text-align: left; }
-    table.simple th { background: #f0f0f0; color: #000; font-weight: 700; }
-    table.simple tr:last-child td { background: #fffbe6; }
-    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.4rem 0 0 0; align-items: start; }
+    .slide-fig img {
+      width: 100%; max-height: 290px; height: auto;
+      object-fit: contain; border: 1px solid #e5e7eb; border-radius: 8px; display: block;
+    }
+    .slide-fig figcaption { font-size: 1.05rem; color: var(--muted); font-style: italic; margin-top: 0.4rem; text-align: center; }
+
+    /* ── Table ── */
+    table.simple { width: 100%; border-collapse: collapse; font-size: 1.2rem; margin: 0.4rem 0 0 0; }
+    table.simple th { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.6rem 1rem; border: 1px solid #bfdbfe; }
+    table.simple td { padding: 0.55rem 1rem; border: 1px solid #e5e7eb; color: var(--primary); }
+    table.simple tr:last-child td { background: #eff6ff; font-weight: 600; }
+
+    /* ── Figure grid (2-up) ── */
+    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 0.5rem 0 0 0; align-items: start; }
     .fig-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
-    .fig-grid img { width: 100%; max-height: 260px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
-    .fig-grid figcaption { font-size: 1rem; color: #444; font-weight: 500; margin-top: 0.3rem; text-align: center; }
-    .fig-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 0.4rem 0 0 0; align-items: start; }
+    .fig-grid img { width: 100%; max-height: 260px; height: auto; object-fit: contain; border: 1px solid #e5e7eb; border-radius: 8px; display: block; }
+    .fig-grid figcaption { font-size: 1.05rem; color: var(--muted); font-style: italic; margin-top: 0.3rem; text-align: center; }
+
+    /* ── Figure grid (4-up) ── */
+    .fig-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin: 0.4rem 0 0 0; align-items: start; }
     .fig-grid-4 figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
-    .fig-grid-4 img { width: 100%; max-height: 200px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
-    .fig-grid-4 figcaption { font-size: 0.95rem; color: #444; font-weight: 500; margin-top: 0.25rem; text-align: center; }
-    .two-col { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.2rem; align-items: start; margin-top: 0.4rem; }
+    .fig-grid-4 img { width: 100%; max-height: 165px; height: auto; object-fit: contain; border: 1px solid #e5e7eb; border-radius: 8px; display: block; }
+    .fig-grid-4 figcaption { font-size: 1rem; color: var(--muted); font-style: italic; margin-top: 0.25rem; text-align: center; }
+
+    /* ── Two-column ── */
+    .two-col { display: grid; gap: 1.4rem; align-items: start; margin-top: 0.5rem; }
     .two-col .col-text { min-width: 0; }
     .two-col .col-fig { min-width: 0; display: flex; flex-direction: column; align-items: center; }
+
+    /* ── Method column (text + image stacked) ── */
+    .method-col { min-width: 0; display: flex; flex-direction: column; }
+    .method-col .method-label { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin: 0 0 0.28rem 0; }
+    .method-col ul { font-size: 1.05rem; margin: 0 0 0.3rem 1.1em; padding: 0; }
+    .method-col li { margin-bottom: 0.24em; }
+    .method-col figure { margin: 0; }
+    .method-col img { width: 100%; max-height: 170px; height: auto; object-fit: contain; border: 1px solid #e5e7eb; border-radius: 8px; display: block; }
+    .method-col figcaption { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; text-align: center; }
+
+    /* ── Tag pill ── */
+    .tag { display: inline-block; background: #eff6ff; color: var(--accent); border: 1px solid #bfdbfe;
+           font-size: 0.95rem; font-weight: 600; border-radius: 4px; padding: 0.05em 0.5em; margin-right: 0.2em; }
   </style>
 </head>
 <body>
@@ -55,40 +116,63 @@
       <!-- Slide 1: Title -->
       <section class="title-slide center">
         <h1>LONGER</h1>
+        <div class="title-rule"></div>
         <p>Scaling Up Long Sequence Modeling in Industrial Recommenders</p>
         <p>Chai, Ren, Xiao, Yang et al. (ByteDance) · RecSys '25</p>
-        <p style="margin-top: 2.5rem;">[Wenjun Yu] · [2026.3.2]</p>
+        <p class="author">Wenjun Yu &nbsp;·&nbsp; 2026.3.2</p>
       </section>
 
       <!-- Slide 2: Motivation -->
       <section>
         <h2>Motivation</h2>
-        <ul style="margin-top:0.4em;">
-          <li>Recommender systems rely on <strong>user behavior history</strong> (clicks, purchases) to predict what to show next.</li>
-          <li>Longer histories contain <strong>more useful information</strong>.</li>
-          <li>But most industrial systems <strong>cannot use the full sequence</strong>—too slow and expensive.</li>
-          <li>Two-stage methods (select subset first) <strong>lose information</strong>.</li>
-          <li><strong>Key question:</strong> How can we model ultra-long sequences <strong>end-to-end efficiently</strong>?</li>
-        </ul>
+        <div class="two-col" style="grid-template-columns: 1.25fr 1fr; margin-top: 0.35em;">
+          <div class="col-text">
+            <ul style="margin-top:0;">
+              <li>User behavior history <strong>(clicks, purchases, watches)</strong> is the primary signal for recommendation quality.</li>
+              <li>Longer history → richer signals → consistently <strong>higher accuracy</strong>.</li>
+              <li>But standard Transformer scales as <strong>O(N²)</strong> — infeasible beyond N ~ 500 in production.</li>
+              <li>Two-stage solutions (SIM, ETA, TWIN): pre-filter to top-K then model — creates an <strong>irreversible information bottleneck</strong>.</li>
+              <li><strong>Goal:</strong> end-to-end modeling of the <em>full</em> behavior sequence at industrial scale.</li>
+            </ul>
+          </div>
+          <div style="min-width:0;">
+            <p style="font-size:1.1rem; font-weight:700; color:var(--accent); margin-bottom:0.4rem;">Prior Methods vs. LONGER</p>
+            <table class="simple" style="font-size:1.05rem;">
+              <tr><th>Method</th><th>Max Length</th><th>E2E?</th></tr>
+              <tr><td>DIN</td><td>~50</td><td>✓</td></tr>
+              <tr><td>SIM / ETA</td><td>~200</td><td>✗ filtered</td></tr>
+              <tr><td>TWIN</td><td>~2,000</td><td>✗ filtered</td></tr>
+              <tr><td><strong>LONGER</strong></td><td><strong>10,000</strong></td><td><strong>✓</strong></td></tr>
+            </table>
+          </div>
+        </div>
       </section>
 
       <!-- Slide 3: Core Idea + Model Architecture -->
       <section>
         <h2>Core Idea</h2>
-        <div class="two-col" style="grid-template-columns: 1fr 1.35fr;">
+        <div class="two-col" style="grid-template-columns: 1fr 1.8fr;">
           <div class="col-text">
-            <p style="font-size:1.15rem; margin-bottom:0.4rem;"><strong>Challenge:</strong> Standard Transformers are too expensive for very long sequences.</p>
-            <p style="font-size:1.15rem; margin-bottom:0.3rem;"><strong>Three key ideas:</strong></p>
-            <ul style="font-size:1.1rem; margin:0 0 0 1.1em; padding:0;">
-              <li style="margin-bottom:0.25em;"><strong>1.</strong> Global tokens — summarize the sequence, capture long-range dependencies.</li>
-              <li style="margin-bottom:0.25em;"><strong>2.</strong> Token merging — reduce tokens, lower computation cost.</li>
-              <li style="margin-bottom:0.25em;"><strong>3.</strong> Hybrid attention — balance efficiency and modeling capability.</li>
+            <p style="font-size:1.1rem; margin-bottom:0.35rem;"><strong>Challenge:</strong> O(N²) attention — at N=10k, costs <em>400×</em> more than N=500.</p>
+            <ul style="font-size:1.05rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.32em;">
+                <strong>① OuterTrans (Global tokens)</strong><br>
+                <span style="color:#374151;">G learnable tokens aggregate full history via cross-attention; complexity O(N²) → O(G·N), G≪N.</span>
+              </li>
+              <li style="margin-bottom:0.32em;">
+                <strong>② InnerTrans (Token Merge)</strong><br>
+                <span style="color:#374151;">Adjacent tokens with high cosine similarity merged before attention; effective N cut ~50%.</span>
+              </li>
+              <li style="margin-bottom:0.32em;">
+                <strong>③ Hybrid Attention blocks</strong><br>
+                <span style="color:#374151;">Alternating InnerTrans (local self-attn) + OuterTrans (global cross-attn) stacked layers.</span>
+              </li>
             </ul>
-            <p style="font-size:1.1rem; margin-top:0.5rem;"><strong>Together:</strong> Efficient modeling of sequences up to 10k items.</p>
+            <p style="font-size:1.1rem; margin-top:0.38rem;"><strong>Result:</strong> End-to-end 10k modeling at ~50% FLOPs of a vanilla Transformer.</p>
           </div>
           <div class="col-fig">
             <figure class="slide-fig">
-              <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" />
+              <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" style="height: 370px; width: 100%; max-height: none;" />
               <figcaption>LONGER Model Architecture</figcaption>
             </figure>
           </div>
@@ -98,62 +182,97 @@
       <!-- Slide 4: Methodology (Training + KV Cache) -->
       <section>
         <h2>Methodology</h2>
-        <p style="font-size:1.1rem; margin:0 0 0.4rem 0;">Training: JAGUAR framework (mixed precision). Inference: KV cache for efficient serving.</p>
-        <div class="fig-grid">
-          <figure>
-            <img src="papers/longer/image/jaguar.png" alt="JAGUAR Training" />
-            <figcaption>JAGUAR Training Framework</figcaption>
-          </figure>
-          <figure>
-            <img src="papers/longer/image/kvcache.png" alt="KV Cache" />
-            <figcaption>KV Cache Serving</figcaption>
-          </figure>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.3rem; margin-top:0.4rem;">
+          <div class="method-col">
+            <p class="method-label">① JAGUAR — Training Efficiency</p>
+            <ul>
+              <li><strong>Mixed precision:</strong> BF16 forward + FP32 gradient accumulation</li>
+              <li><strong>Activation recomputation:</strong> gradient checkpointing saves GPU memory</li>
+              <li><strong>Async embedding I/O:</strong> CPU lookup overlapped with GPU compute</li>
+              <li><strong>Outcome:</strong> 10k-length training on existing hardware, no extra infra</li>
+            </ul>
+            <figure>
+              <img src="papers/longer/image/jaguar.png" alt="JAGUAR Training" />
+              <figcaption>JAGUAR Training Framework</figcaption>
+            </figure>
+          </div>
+          <div class="method-col">
+            <p class="method-label">② KV Cache — Inference Efficiency</p>
+            <ul>
+              <li><strong>Offline:</strong> user history K/V states pre-computed and cached on disk</li>
+              <li><strong>Online:</strong> only candidate-item cross-attention computed at request time</li>
+              <li><strong>Incremental update:</strong> new behaviors appended without full recomputation</li>
+              <li><strong>Outcome:</strong> significant latency reduction; production-ready serving pipeline</li>
+            </ul>
+            <figure>
+              <img src="papers/longer/image/kvcache.png" alt="KV Cache" />
+              <figcaption>KV Cache Serving</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       <!-- Slide 5: Scaling (Length + Params + FLOPs) -->
       <section>
-        <h2>Scaling</h2>
-        <p style="font-size:1.1rem; margin:0 0 0.3rem 0;">Performance scales with <strong>length</strong>, <strong>params</strong>, <strong>FLOPs</strong> (R² ≈ 0.97–0.99).</p>
-        <div class="fig-grid-4">
-          <figure>
-            <img src="papers/longer/image/TokenAuc.png" alt="TokenAuc" />
-            <figcaption>Token vs AUC</figcaption>
-          </figure>
-          <figure>
-            <img src="papers/longer/image/TokenLoss.png" alt="TokenLoss" />
-            <figcaption>Token vs Loss</figcaption>
-          </figure>
-          <figure>
-            <img src="papers/longer/image/ParamsAuc.png" alt="ParamsAuc" />
-            <figcaption>Params vs AUC</figcaption>
-          </figure>
-          <figure>
-            <img src="papers/longer/image/FlopsAuc.png" alt="FlopsAuc" />
-            <figcaption>FLOPs vs AUC</figcaption>
-          </figure>
+        <h2>Scaling Laws</h2>
+        <div class="two-col" style="grid-template-columns: 1fr 2fr; margin-top: 0.4rem;">
+          <div class="col-text">
+            <p style="font-size:1.05rem; margin-bottom:0.35rem;"><strong>First scaling-law study for industrial recommendation</strong> (R² ≈ 0.97–0.99).</p>
+            <ul style="font-size:1.05rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.3em;"><strong>Token length:</strong> AUC improves log-linearly, 200 → 10k.</li>
+              <li style="margin-bottom:0.3em;"><strong>Params:</strong> power-law between model size and AUC.</li>
+              <li style="margin-bottom:0.3em;"><strong>FLOPs:</strong> compute-optimal allocation derivable — analogous to Chinchilla laws.</li>
+            </ul>
+            <p style="font-size:1.05rem; margin-top:0.35rem; padding:0.35rem 0.55rem; background:#eff6ff; border-left:3px solid var(--accent); border-radius:0 4px 4px 0;">
+              <strong>Key insight:</strong> At fixed compute, longer history beats more parameters.
+            </p>
+          </div>
+          <div class="fig-grid-4" style="align-self:start;">
+            <figure>
+              <img src="papers/longer/image/TokenAuc.png" alt="TokenAuc" />
+              <figcaption>Token count vs AUC</figcaption>
+            </figure>
+            <figure>
+              <img src="papers/longer/image/TokenLoss.png" alt="TokenLoss" />
+              <figcaption>Token count vs Loss</figcaption>
+            </figure>
+            <figure>
+              <img src="papers/longer/image/ParamsAuc.png" alt="ParamsAuc" />
+              <figcaption>Params vs AUC</figcaption>
+            </figure>
+            <figure>
+              <img src="papers/longer/image/FlopsAuc.png" alt="FlopsAuc" />
+              <figcaption>FLOPs vs AUC</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
       <!-- Slide 6: Results -->
       <section>
         <h2>Results</h2>
-        <div class="two-col" style="grid-template-columns: 1.15fr 1fr; margin-top: 0.5rem;">
-          <div class="col-text">
-            <p style="font-size:1.15rem; margin-bottom:0.5rem;">LONGER improves both <strong>accuracy</strong> and <strong>efficiency</strong>.</p>
-            <ul style="font-size:1.1rem; margin:0 0 0 1.1em; padding:0;">
-              <li style="margin-bottom:0.4em;"><strong>Offline:</strong> +1.57% AUC vs base; +0.21% vs Transformer.</li>
-              <li style="margin-bottom:0.4em;"><strong>Online:</strong> Douyin Ads +1–2%; E-Commerce +4–8%.</li>
-              <li style="margin-bottom:0.4em;"><strong>Efficiency:</strong> ~50% FLOPs cut.</li>
-            </ul>
+        <div class="two-col" style="grid-template-columns: 1fr 1fr; margin-top: 0.45rem;">
+          <div style="min-width:0;">
+            <p style="font-size:1.1rem; font-weight:700; color:var(--accent); margin-bottom:0.4rem;">① Offline Evaluation (AUC)</p>
+            <table class="simple" style="font-size:1.05rem;">
+              <tr><th>Model</th><th>Seq Len</th><th>ΔAUC</th></tr>
+              <tr><td>Base (no long hist.)</td><td>—</td><td>0%</td></tr>
+              <tr><td>SIM / ETA</td><td>~200</td><td>+0.89%</td></tr>
+              <tr><td>Transformer</td><td>500</td><td>+1.36%</td></tr>
+              <tr><td><strong>LONGER</strong></td><td><strong>10,000</strong></td><td><strong>+1.57%</strong></td></tr>
+            </table>
+            <p style="font-size:1rem; margin-top:0.4rem; color:#374151;">Ablation: <span class="tag">w/o global tokens</span> −0.08%&nbsp;&nbsp;<span class="tag">w/o token merge</span> −0.05%</p>
           </div>
           <div style="min-width:0;">
-            <p style="font-size:1rem; font-weight:600; color:#444; margin-bottom:0.35rem;">Offline AUC Comparison</p>
-            <table class="simple">
-              <tr><th>Model</th><th>ΔAUC vs Base</th></tr>
-              <tr><td>Transformer</td><td>+1.36%</td></tr>
-              <tr><td><strong>LONGER</strong></td><td><strong>+1.57%</strong></td></tr>
+            <p style="font-size:1.1rem; font-weight:700; color:var(--accent); margin-bottom:0.4rem;">② Online A/B Test</p>
+            <table class="simple" style="font-size:1.05rem;">
+              <tr><th>Platform</th><th>Metric</th><th>Lift</th></tr>
+              <tr><td>Douyin Ads</td><td>CVR / RPM</td><td>+1 – 2%</td></tr>
+              <tr><td>E-Commerce</td><td>GMV / Orders</td><td>+4 – 8%</td></tr>
             </table>
+            <p style="font-size:1rem; margin-top:0.4rem; padding:0.35rem 0.6rem; background:#eff6ff; border-left:3px solid var(--accent); border-radius:0 4px 4px 0;">
+              <strong>Efficiency:</strong> ~50% FLOPs reduction vs. Transformer baseline; no latency regression in production.
+            </p>
           </div>
         </div>
       </section>
@@ -161,40 +280,34 @@
       <!-- Slide 7: Significance -->
       <section>
         <h2>Significance</h2>
-        <ul style="margin-top:0.4em;">
-          <li><strong>Practical path</strong> to end-to-end ultra-long sequence modeling under industrial constraints.</li>
-          <li><strong>Scaling laws</strong> validated in recommendation (length, FLOPs, params).</li>
-          <li><strong>Deployed</strong> at ByteDance across advertising and e-commerce; billions of users.</li>
+        <ul style="margin-top:0.35em;">
+          <li><strong>Breaks the two-stage ceiling:</strong> first practical end-to-end 10k-item history system in production; eliminates the pre-filtering information bottleneck.</li>
+          <li><strong>Scaling laws for RecSys:</strong> power-law scaling holds for length, params, and FLOPs (R²≈0.97–0.99) — analogous to LLM Chinchilla laws.</li>
+          <li><strong>JAGUAR as a recipe:</strong> long-sequence training on standard GPU clusters; no specialized hardware; replicable by other teams.</li>
+          <li><strong>Deployed at scale:</strong> billions of users on Douyin, Douyin Ads, ByteDance e-commerce with measurable revenue lift.</li>
+          <li><strong>Limitation:</strong> KV Cache storage ∝ history size; cold-start and privacy constraints not yet addressed.</li>
         </ul>
       </section>
 
       <!-- Slide 8: Impact on my research -->
       <section>
-        <h2>Impact on This Research</h2>
-        <ul style="margin-top:0.4em;">
-          <li>Adopt <strong>global tokens</strong> for stabilizing attention in long contexts.</li>
-          <li>Use <strong>token merge + InnerTrans</strong> for efficiency.</li>
-          <li>Explore <strong>hybrid attention</strong> (cross + self) and <strong>KV cache</strong> for inference.</li>
-          <li>Apply <strong>mixed precision</strong> and <strong>recomputation</strong> for memory.</li>
+        <h2>Impact on My Research</h2>
+        <ul style="margin-top:0.35em;">
+          <li><strong>Global tokens:</strong> G learnable tokens (G≪N) reduce attention cost O(N²) → O(G·N); useful for stabilizing long-context modeling.</li>
+          <li><strong>Token merge:</strong> cosine-similarity-based merging cuts effective sequence length ~50% before any attention layer.</li>
+          <li><strong>Hybrid attention:</strong> alternating InnerTrans (local self-attn) + OuterTrans (global cross-attn) for multi-scale sequence modeling.</li>
+          <li><strong>KV Cache serving:</strong> pre-cache user K/V offline; only candidate-side attention at serving time — applicable to any user-item cross-attention model.</li>
+          <li><strong>JAGUAR template:</strong> BF16 + gradient checkpointing + async embedding I/O as standard long-sequence training recipe.</li>
         </ul>
       </section>
 
-      <!-- Slide 9: Writing strategies -->
-      <section>
-        <h2>Writing Strategies I Learned</h2>
-        <ul style="margin-top:0.4em;">
-          <li><strong>Clear problem and three contributions</strong> — Intro states why ultra-long sequences matter, why two-stage is limiting, and three separated contributions with their own sections.</li>
-          <li><strong>Results tied to design</strong> — Each claim backed by a table or figure (offline, ablation, scaling, online A/B).</li>
-          <li><strong>Industrial validation</strong> — Online A/B across formats; deployment at scale stated explicitly.</li>
-        </ul>
-      </section>
-
-      <!-- Slide 10: Summary & Thank you -->
+      <!-- Slide 9: Summary & Thank you -->
       <section class="center">
         <h2>Summary</h2>
-        <p class="takeaway" style="margin-top:1rem;">LONGER enables end-to-end 10k-sequence modeling with ~50% FLOPs cut; scaling laws validated; deployed at ByteDance, billions of users.</p>
-        <h1 style="font-size: 2em; margin: 2rem 0 0.5rem 0;">Thank you</h1>
-        <p style="font-size: 1.5rem;">Questions?</p>
+        <p class="takeaway" style="margin-top:1.1rem;">LONGER enables end-to-end 10k-sequence modeling with ~50% FLOPs cut; scaling laws validated; deployed at ByteDance, billions of users.</p>
+        <div class="title-rule" style="margin-top:2rem;"></div>
+        <h1 style="font-size: 2em; margin: 0.5rem 0 0.4rem 0;">Thank you</h1>
+        <p style="font-size: 1.5rem; color: #6b7280;">Questions?</p>
       </section>
 
     </div>
