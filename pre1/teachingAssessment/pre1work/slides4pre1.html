@@ -170,7 +170,7 @@
 
       <!-- Slide 8: Impact on my research -->
       <section>
-        <h2>Impact on My Research</h2>
+        <h2>Impact on This Research</h2>
         <ul style="margin-top:0.4em;">
           <li>Adopt <strong>global tokens</strong> for stabilizing attention in long contexts.</li>
           <li>Use <strong>token merge + InnerTrans</strong> for efficiency.</li>
@@ -199,6 +199,28 @@
 
     </div>
   </div>
+  <!-- Edit mode UI -->
+  <div id="edit-badge" style="
+    display: none; position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+    background: #e63946; color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    padding: 5px 16px; border-radius: 20px; z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25); pointer-events: none;">
+    ✏ EDIT MODE &nbsp;·&nbsp; <span style="font-weight:400;">Ctrl+S to save &nbsp;·&nbsp; T to exit</span>
+  </div>
+  <button id="save-btn" onclick="saveFile()" style="
+    display: none; position: fixed; bottom: 28px; right: 28px;
+    background: #e63946; color: #fff; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 700; padding: 10px 22px; cursor: pointer;
+    z-index: 9999; box-shadow: 0 3px 10px rgba(0,0,0,0.25);">
+    💾 Save
+  </button>
+  <div id="toast" style="
+    display: none; position: fixed; bottom: 80px; right: 28px;
+    background: #2d6a4f; color: #fff; font-size: 13px; font-weight: 600;
+    padding: 8px 18px; border-radius: 8px; z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: opacity 0.4s;">
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
   <script>
     Reveal.initialize({
@@ -212,6 +234,108 @@
       margin: 0.04,
       minScale: 0.2,
       maxScale: 2.0
+    });
+
+    /* ── Edit Mode ── */
+    let editMode = false;
+    let fileHandle = null;
+
+    function getSections() {
+      return document.querySelectorAll('.reveal .slides section');
+    }
+
+    function setEditMode(on) {
+      editMode = on;
+      getSections().forEach(s => {
+        s.contentEditable = on ? 'true' : 'inherit';
+        s.style.outline = on ? '2px dashed rgba(230,57,70,0.35)' : '';
+        s.style.cursor  = on ? 'text' : '';
+      });
+      document.getElementById('edit-badge').style.display = on ? 'block' : 'none';
+      document.getElementById('save-btn').style.display   = on ? 'block' : 'none';
+      if (on) {
+        // disable arrow-key slide navigation while typing
+        Reveal.configure({ keyboard: false });
+        const cur = document.querySelector('.reveal .slides .present');
+        if (cur) cur.focus();
+      } else {
+        Reveal.configure({ keyboard: true });
+      }
+    }
+
+    function showToast(msg, color) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.background = color || '#2d6a4f';
+      t.style.display = 'block';
+      t.style.opacity = '1';
+      setTimeout(() => {
+        t.style.opacity = '0';
+        setTimeout(() => t.style.display = 'none', 400);
+      }, 1800);
+    }
+
+    async function saveFile() {
+      // Strip contenteditable & outline before serialising
+      getSections().forEach(s => {
+        s.removeAttribute('contenteditable');
+        s.style.outline = '';
+        s.style.cursor  = '';
+      });
+
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+      // Restore attributes if still in edit mode
+      if (editMode) {
+        getSections().forEach(s => {
+          s.contentEditable = 'true';
+          s.style.outline = '2px dashed rgba(230,57,70,0.35)';
+          s.style.cursor  = 'text';
+        });
+      }
+
+      try {
+        if (!fileHandle) {
+          fileHandle = await window.showSaveFilePicker({
+            suggestedName: 'slides4pre1.html',
+            types: [{ description: 'HTML File', accept: { 'text/html': ['.html'] } }]
+          });
+        }
+        const writable = await fileHandle.createWritable();
+        await writable.write(html);
+        await writable.close();
+        showToast('✓ Saved!', '#2d6a4f');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          // Fallback: download
+          const blob = new Blob([html], { type: 'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'slides4pre1.html';
+          a.click();
+          showToast('⬇ Downloaded', '#555');
+        }
+      }
+    }
+
+    document.addEventListener('keydown', async e => {
+      // T: toggle edit mode (only when not typing in a focused editable element other than slide itself)
+      if (e.key === 't' || e.key === 'T') {
+        const active = document.activeElement;
+        const inEditable = active && active !== document.body &&
+                           active.tagName !== 'BODY' && !active.classList.contains('present') &&
+                           !active.closest('.slides');
+        if (!inEditable) {
+          e.stopImmediatePropagation();
+          setEditMode(!editMode);
+          return;
+        }
+      }
+      // Ctrl/Cmd + S: save
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        await saveFile();
+      }
     });
   </script>
 </body>
