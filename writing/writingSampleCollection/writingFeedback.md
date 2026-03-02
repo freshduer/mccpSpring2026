@@ -7,17 +7,17 @@
 **Date:** 2 March 2026
 **Reviewer:** Simon Wang (with AI-assisted analysis)
 
-**Your draft:** writing/writingSampleCollection/firstDraft.md
-**Your reflection:** writing/writingSampleCollection/reflection.md
+**Your draft:** writing/writingSampleCollection/firstDraft.md (branch: work2)
+**Your reflection:** writing/writingSampleCollection/reflection.md (branch: work2)
 **Assessment rubric:** writing/assessment/writing_instructions_formatted.md
 
 ---
 
 ## Overall Assessment
 
-Your draft demonstrates strong systems research thinking and clear engagement with an industrially relevant problem (DLRM parameter synchronization). You have a well-defined research topic, and your Literature Review shows genuine understanding of the architectural challenges in recommendation systems at scale. The draft has several notable strengths: clear move structure, substantive gap identification (five specific gaps in Move 3), and a strong concluding paragraph that explicitly connects the literature to your proposed approach. The main areas for improvement are: (1) the Introduction needs more citations — several key claims are unsupported; (2) the Literature Review's Move 2 is descriptive rather than critically analytical; and (3) the writing could benefit from tighter synthesis across the different subsections.
+This is a strong draft that demonstrates clear command of academic writing structure and deep understanding of the DLRM systems research landscape. Your Introduction follows the three-move structure effectively: Move 1 establishes the territory with concrete scale figures (50% training cycles, 60% inference at Meta), Move 2 identifies the bandwidth bottleneck with specific numbers (26 minutes for 10% of 200TB), and Move 2's second paragraph pivots elegantly to two overlooked opportunities (CPU underutilization, low-rank structure). The writing is confident, well-paced, and technically precise. The main areas for improvement are: (1) Move 3 is marked as "..." and needs to be completed; (2) the Literature Review section is missing entirely; (3) while the arguments are strong, citations are absent — every quantitative claim needs a reference; and (4) some language patterns suggest AI polishing that could be toned down for more natural academic voice.
 
-**Estimated current level:** Good (7–8 range) — The structure and analytical quality are strong, with clear moves and a genuine research gap. Adding citations, deepening critical analysis, and synthesizing across sources will push this to Excellent.
+**Estimated current level:** Good to Excellent (8–9 range) — The structure, argument quality, and technical depth are impressive. Completing the missing sections and adding citations will push this to Excellent.
 
 ---
 
@@ -25,83 +25,71 @@ Your draft demonstrates strong systems research thinking and clear engagement wi
 
 ### What Works Well
 
-- **Move 1 effectively establishes the territory.** You clearly explain why DLRMs matter (trillion-parameter models, industrial deployment at Meta/Google/ByteDance scale) and why embedding tables are the core challenge
-- **Move 2 identifies a genuine, specific gap.** The gap between training-side optimization and inference-side staleness is well-framed and industrially relevant
-- **Move 3 clearly states your research direction.** The shift from "inter-cluster synchronization" to "intra-cluster co-location" is a compelling research pivot
+- **Move 1 is excellent.** Three well-structured paragraphs establish the territory progressively: (1) what DLRMs are and their scale, (2) the decoupled architecture and its synchronization challenge, (3) why freshness matters with business impact. Each paragraph has a clear purpose.
+- **Concrete quantification throughout.** "50% of training cycles," "60% of inference resources," "26 minutes," "0.1% accuracy drop → millions in lost revenue," "peak utilization only 20%," "80% of variance in 5% of principal components" — these numbers make the argument vivid and credible.
+- **Move 2's pivot is well-crafted.** The transition from "these approaches are fundamentally limited by the training-inference decoupled architecture" to "we identify two overlooked opportunities" is a strong rhetorical move. You name the two opportunities (CPU underutilization, low-rank structure) and show exactly how they enable your paradigm shift.
+- **The "paradigm shift" framing is effective.** Saying your approach "eliminates inter-cluster synchronization entirely" is a bold and clear contribution statement.
 
-### Issue 1: Citations Are Sparse in the Introduction
+### Issue 1: All Quantitative Claims Need Citations
 
-Your Introduction makes several strong claims about industrial DLRM deployments without citations:
+Despite the strong use of numbers, not a single citation appears in the draft. This is the most critical gap. Every specific number needs a reference:
 
-**Your sentence (no citation):** "Modern DLRMs deployed at Meta, Google, and ByteDance have evolved from relatively simple shallow architectures into trillion-parameter systems"
+- "DLRMs consume over 50% of training cycles and 60% of inference resources" — which Meta/industry paper?
+- "syncing just 10% of a 200TB EMT over 100GbE networks takes over 26 minutes" — from which systems measurement?
+- "even a 0.1% accuracy drop can translate to millions in lost revenue" — which industry report?
+- "peak utilization reaching only 20%" — from which production trace analysis?
+- "over 80% of parameter update variance can be captured by less than 5% of principal components" — which empirical study?
 
-This needs citations. Which Meta/Google/ByteDance papers describe these systems? (e.g., DLRM paper from Naumov et al., Deep & Cross Network from Wang et al., etc.)
+**Action:** Add LaTeX citations to every factual claim. Each paragraph should have 3–5 citations. Readers need to verify these numbers, and reviewers will specifically challenge uncited claims.
 
-**Your sentence (no citation):** "A single recommendation query may require accessing thousands of sparse features across multiple embedding tables"
+### Issue 2: Move 3 Is Incomplete
 
-Which system measurement demonstrates this? Production system papers from industry labs often include these numbers.
+Move 3 shows only "..." — this is where you state your specific contribution. Based on your Move 2, a strong Move 3 would be:
 
-**Action:** Add citations to every factual claim in the Introduction. As a guide, each paragraph should have 3–5 citations.
+**Suggested Move 3:** "In this paper, we propose [algorithm name], a near-real-time parameter synchronization framework that co-locates lightweight incremental training within inference clusters. Our approach makes three contributions: (1) we design an in-cluster training architecture that leverages idle inference CPUs to compute embedding updates locally, eliminating cross-cluster synchronization; (2) we develop an adaptive low-rank decomposition scheme that dynamically adjusts approximation rank based on update complexity, capturing [X]% of update information with [Y]% parameter reduction; and (3) we introduce a performance isolation mechanism that bounds the interference between co-located training and inference workloads to within [Z]% latency overhead. Experiments on production-scale DLRM workloads demonstrate that [algorithm name] achieves [X]-second update freshness — a [Y]× improvement over state-of-the-art delta synchronization — while maintaining recommendation accuracy within [Z]% of full-sync baselines."
 
-### Issue 2: Move 2 Could Frame the Gap More Sharply
+### Issue 3: Consider the Reader's Background
 
-Your Move 2 identifies the synchronization latency problem well but could be more explicit about why existing solutions fail:
+Your draft assumes familiarity with DLRM architecture (embedding tables, training-inference decoupling, parameter servers). While this is appropriate for a systems conference audience, adding one sentence explaining what embedding tables store and why they are so large would help readers from neighboring fields.
 
-**Stronger framing:** "Current approaches to parameter synchronization — including [full sync approach, citation], [delta-based updates, citation], and [periodic batch updates, citation] — all operate within the training-inference decoupled paradigm. As a result, they are fundamentally bounded by inter-cluster network bandwidth, achieving update freshness on the order of minutes rather than seconds. For applications such as real-time bidding and live content ranking, this staleness directly translates to [quantified business impact, if available]."
+### Issue 4: Watch for Over-Polished AI Language
 
-### Issue 3: Move 3 Preview Could Be More Specific
-
-Your Move 3 mentions "co-locating lightweight training within inference clusters" but could preview specific technical contributions:
-
-**Suggestion:** "Specifically, this work makes three contributions: (1) we propose an in-cluster incremental training architecture that eliminates cross-cluster synchronization; (2) we develop an adaptive low-rank decomposition scheme that exploits the intrinsic structure of embedding updates; and (3) we design a performance isolation mechanism to prevent training workloads from degrading inference latency."
+Some phrases have a slightly formulaic quality that suggests AI polishing: "Their operational scale is staggering," "This resource footprint stems from," "creating unprecedented systems challenges." While individually fine, clustered together they feel generated rather than natural. Consider varying your sentence openings and using more direct language where appropriate.
 
 ---
 
 ## Part 2: Literature Review Feedback
 
-### What Works Well
+### Status: Not Yet Written
 
-- **Move 1 (Thematic Overview)** effectively organizes the literature into four themes: DLRM architectures, industrial deployments, parameter management, and real-time update approaches
-- **Move 2 covers substantial ground** — from hash-based embedding (Meta's Compositional Embedding) to low-rank factorization to training-inference co-location
-- **Move 3 identifies five specific gaps** — this is thorough and well-articulated. The gaps about abstraction interoperability, developer effort, and production workload evidence are particularly insightful
-- **Move 4 is strong** — it explicitly connects the literature analysis to your proposed approach, identifying two underexplored opportunities (CPU underutilization and low-rank update structure)
+Your draft does not include a Literature Review section. Based on your Introduction, the Literature Review should cover:
 
-### Issue 4: Move 2 Tends Toward Description
+1. **DLRM Architecture and Scale** — Survey papers on DLRM architectures (DLRM paper, Deep & Cross, etc.) and industrial deployment reports
+2. **Parameter Synchronization Methods** — Delta-based, prioritization-based, and other approaches you critique in Move 2
+3. **Low-Rank Approximation for Embeddings** — Methods that exploit low-rank structure in neural network parameters
+4. **Training-Inference Co-location** — Any existing work on co-located training, including edge/federated approaches
+5. **Performance Isolation** — How existing systems manage resource contention between co-located workloads
 
-While you cover many approaches, the analysis within each subsection tends to describe what systems do rather than evaluating how well they work and what their limitations are.
-
-**Your sentence (description):** "Recent advances include methods such as Compositional Embedding (CompEmb), which uses hash-based composition to reduce table sizes, and Tensor-Train Decomposition (TTRec), which factorizes embeddings into compact tensor formats."
-
-**With critical analysis:** "Recent compression methods take two distinct approaches: hash-based composition (CompEmb, [citation]) reduces memory by mapping multiple features to shared embedding entries, achieving X% compression but risking hash collisions that degrade recommendation accuracy for tail entities. Tensor-train decomposition (TTRec, [citation]) preserves more structural information through factorization, but introduces computational overhead proportional to the tensor rank, making it less suitable for latency-sensitive serving paths."
-
-### Issue 5: Cross-Subsection Synthesis Is Limited
-
-Your four subsections (architecture, deployment, parameter management, real-time updates) are treated somewhat independently. Adding synthesis paragraphs that connect themes would strengthen the review significantly.
-
-**Suggestion:** After the subsections, add a synthesis paragraph: "Across these four themes, a common pattern emerges: optimizations designed for the training phase (e.g., hash-based compression, low-rank decomposition) do not automatically translate to inference-time benefits because the training-inference boundary introduces a synchronization bottleneck. This observation motivates..."
-
-### Issue 6: Some Technical Claims Need Citations
-
-Several claims in the Literature Review appear to describe specific measurements or results without citing the source:
-
-- "over 80% of parameter update variance can be captured by less than 5% of principal components" — which paper demonstrates this?
-- "multi-minute delays" for parameter synchronization — from which production system report?
-
-**Action:** Ensure every specific number or measurement has a citation.
+**Structure suggestion:** Organize into 3–4 thematic subsections, each with:
+- Move 1: What this line of work addresses
+- Move 2: Critical analysis of key papers (not just description — evaluate assumptions, limitations, and tradeoffs)
+- Connect each subsection to your contribution
 
 ---
 
-## Part 3: Language and Process Feedback
+## Part 3: Reflection Feedback
 
-### Issue 7: Writing Quality Is Generally Good
+### What Works Well
 
-Your writing is clear and well-organized. A few areas for improvement:
-- Some sentences are overly long and could be split
-- The phrase "near-real-time" appears frequently — define it precisely once and use it consistently
+Your reflection is thoughtful and shows strong self-awareness:
 
-### Issue 8: Reflection Shows Good Self-Awareness
+- **"I follow a problem–limitation–opportunity structure commonly used in systems papers"** — this is exactly what your Introduction does, and it works well
+- **Honest about AI usage:** "AI is helpful for language polishing but requires careful checking for technical accuracy" — this shows maturity
+- **Clear improvement goals:** gap identification, synthesis, and academic expression are exactly the right areas to focus on
 
-Your reflection identifies that your biggest challenge is "abstracting high-level contributions from detailed system mechanisms." This is visible in the draft — you handle the system details well but sometimes lose the higher-level argument thread. The solution is to start each paragraph with a topic sentence that states the analytical point, then use system details as evidence for that point.
+### Issue 5: Your Self-Identified Concern Is Valid
+
+You note: "I sometimes worry that my introduction doesn't sufficiently motivate the problem for readers outside my specific research area." This concern is valid. Your Move 1 effectively motivates the problem for systems researchers, but a reader from ML/NLP might not immediately grasp why parameter freshness matters so much. Consider adding one sentence connecting stale parameters to user-facing impact (e.g., "Users see irrelevant recommendations during the staleness window, directly reducing click-through rates and session duration").
 
 ---
 
@@ -109,20 +97,19 @@ Your reflection identifies that your biggest challenge is "abstracting high-leve
 
 | Priority | Action | Impact |
 |----------|--------|--------|
-| 🔴 High | Add citations throughout the Introduction (every paragraph needs 3–5) | Makes claims evidence-based |
-| 🔴 High | Deepen Move 2 critical analysis — add limitations and comparisons | Transforms description into argument |
-| 🟡 Medium | Add cross-subsection synthesis paragraph(s) | Shows connections across themes |
-| 🟡 Medium | Frame Move 2 gap more sharply with specific failure evidence | Strengthens research motivation |
-| 🟡 Medium | Preview specific contributions in Move 3 | Signals clear research value |
-| 🟢 Lower | Cite all specific numbers and measurements | Improves academic rigor |
-| 🟢 Lower | Define "near-real-time" precisely | Clarifies key concept |
+| 🔴 High | Add citations to every quantitative claim (every paragraph needs 3–5) | Makes claims verifiable and credible |
+| 🔴 High | Complete Move 3 with specific contributions and result preview | Tells readers what the paper delivers |
+| 🔴 High | Write the Literature Review section | Completes the required structure |
+| 🟡 Medium | Add one sentence of background on EMTs for non-specialist readers | Improves accessibility |
+| 🟡 Medium | Vary sentence openings to reduce AI-polished feel | Makes voice more natural |
+| 🟢 Lower | Add user-facing impact connection in Move 1 | Broadens motivation appeal |
 
 ---
 
 ## Next Steps
 
 1. Read the [full writing instructions](https://github.com/tesolchina/mccpSpring2026/blob/main/writing/assessment/writing_instructions_formatted.md) carefully
-2. Add citations to every paragraph of the Introduction
-3. Revise Move 2 with critical analysis and cross-method comparisons
-4. Add synthesis paragraphs connecting the four themes
+2. Complete Move 3 with numbered contributions
+3. Write the Literature Review (recommend 600–800 words covering 3–4 themes)
+4. Add citations throughout
 5. Submit by **15 March 2026** via Moodle forum and Turnitin
