@@ -11,34 +11,39 @@
       --primary: #000;
       --neutral-bg: #fff;
       --neutral-text: #000;
-      --slide-pad: 2.5rem;
+      --slide-pad: 1.8rem;
     }
     .reveal { background-color: var(--neutral-bg); }
     .reveal .slides { text-align: left; }
-    .reveal .slides section { padding: 0 var(--slide-pad); box-sizing: border-box; }
+    .reveal .slides section { padding: 0.2rem var(--slide-pad) 0; box-sizing: border-box; overflow: hidden; }
     .reveal h1, .reveal h2 { color: var(--primary); font-weight: 700; }
-    .reveal h1 { font-size: 2.4em; margin: 0 0 0.5em 0; }
-    .reveal h2 { font-size: 1.85em; margin: 0 0 0.6em 0; }
-    .reveal p, .reveal li { color: var(--neutral-text); font-size: 1.55rem; line-height: 1.45; margin: 0; }
-    .reveal ul { margin: 0.4em 0 0 1.2em; padding: 0; list-style-position: outside; }
-    .reveal li { margin-bottom: 0.4em; }
+    .reveal h1 { font-size: 2.2em; margin: 0 0 0.4em 0; }
+    .reveal h2 { font-size: 1.65em; margin: 0 0 0.4em 0; }
+    .reveal p, .reveal li { color: var(--neutral-text); font-size: 1.35rem; line-height: 1.4; margin: 0; }
+    .reveal ul { margin: 0.3em 0 0 1.2em; padding: 0; list-style-position: outside; }
+    .reveal li { margin-bottom: 0.35em; }
     .reveal strong { color: var(--primary); }
     .reveal .slide-number { color: var(--primary); font-size: 0.5em; }
-    .reveal .title-slide h1 { font-size: 2em; margin-bottom: 0.8em; }
-    .reveal .title-slide p { font-size: 1.35rem; color: var(--neutral-text); margin: 0.4em 0; }
+    .reveal .title-slide h1 { font-size: 2em; margin-bottom: 0.7em; }
+    .reveal .title-slide p { font-size: 1.25rem; color: var(--neutral-text); margin: 0.35em 0; }
     .reveal .center { text-align: center; }
-    .reveal .takeaway { font-size: 1.7rem; font-weight: 600; color: var(--primary); margin: 0.5em 0 0 0; line-height: 1.4; }
+    .reveal .takeaway { font-size: 1.5rem; font-weight: 600; color: var(--primary); margin: 0.5em 0 0 0; line-height: 1.4; }
     .slide-fig { margin: 0; text-align: center; }
-    .slide-fig img { width: 100%; height: 400px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; display: block; }
-    .slide-fig figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.5rem; text-align: center; }
-    table.simple { width: 100%; border-collapse: collapse; font-size: 1.15rem; margin: 0.6rem 0 0 0; }
-    table.simple th, table.simple td { border: 1px solid #333; padding: 0.5rem 0.75rem; text-align: left; }
-    table.simple th { background: #fff; color: #000; }
-    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0.75rem 0 0 0; align-items: start; }
+    .slide-fig img { width: 100%; max-height: 350px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
+    .slide-fig figcaption { font-size: 1rem; color: #444; font-weight: 500; margin-top: 0.35rem; text-align: center; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 1.1rem; margin: 0.4rem 0 0 0; }
+    table.simple th, table.simple td { border: 1px solid #333; padding: 0.55rem 0.9rem; text-align: left; }
+    table.simple th { background: #f0f0f0; color: #000; font-weight: 700; }
+    table.simple tr:last-child td { background: #fffbe6; }
+    .fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.4rem 0 0 0; align-items: start; }
     .fig-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
-    .fig-grid img { width: 100%; height: 340px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; display: block; }
-    .fig-grid figcaption { font-size: 1.15rem; color: #000; font-weight: 500; margin-top: 0.5rem; text-align: center; }
-    .two-col { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; align-items: start; margin-top: 0.5rem; }
+    .fig-grid img { width: 100%; max-height: 260px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
+    .fig-grid figcaption { font-size: 1rem; color: #444; font-weight: 500; margin-top: 0.3rem; text-align: center; }
+    .fig-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 0.4rem 0 0 0; align-items: start; }
+    .fig-grid-4 figure { margin: 0; display: flex; flex-direction: column; align-items: center; }
+    .fig-grid-4 img { width: 100%; max-height: 200px; height: auto; object-fit: contain; border: 1px solid #ddd; border-radius: 6px; display: block; }
+    .fig-grid-4 figcaption { font-size: 0.95rem; color: #444; font-weight: 500; margin-top: 0.25rem; text-align: center; }
+    .two-col { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.2rem; align-items: start; margin-top: 0.4rem; }
     .two-col .col-text { min-width: 0; }
     .two-col .col-fig { min-width: 0; display: flex; flex-direction: column; align-items: center; }
   </style>
@@ -72,67 +77,88 @@
         <h2>Core Idea</h2>
         <div class="two-col" style="grid-template-columns: 1fr 1.35fr;">
           <div class="col-text">
-            <p style="font-size:1.25rem; margin-bottom:0.5rem;"><strong>Challenge:</strong> Standard Transformers are too expensive for very long sequences.</p>
-            <p style="font-size:1.25rem; margin-bottom:0.35rem;"><strong>Three key ideas:</strong></p>
-            <ul style="font-size:1.2rem; margin:0 0 0 1.1em; padding:0;">
-              <li style="margin-bottom:0.3em;"><strong>1.</strong> Global tokens — summarize the sequence, capture long-range dependencies.</li>
-              <li style="margin-bottom:0.3em;"><strong>2.</strong> Token merging — reduce tokens, lower computation cost.</li>
-              <li style="margin-bottom:0.3em;"><strong>3.</strong> Hybrid attention — balance efficiency and modeling capability.</li>
+            <p style="font-size:1.15rem; margin-bottom:0.4rem;"><strong>Challenge:</strong> Standard Transformers are too expensive for very long sequences.</p>
+            <p style="font-size:1.15rem; margin-bottom:0.3rem;"><strong>Three key ideas:</strong></p>
+            <ul style="font-size:1.1rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.25em;"><strong>1.</strong> Global tokens — summarize the sequence, capture long-range dependencies.</li>
+              <li style="margin-bottom:0.25em;"><strong>2.</strong> Token merging — reduce tokens, lower computation cost.</li>
+              <li style="margin-bottom:0.25em;"><strong>3.</strong> Hybrid attention — balance efficiency and modeling capability.</li>
             </ul>
-            <p style="font-size:1.2rem; margin-top:0.6rem;"><strong>Together:</strong> Efficient modeling of sequences up to 10k items.</p>
+            <p style="font-size:1.1rem; margin-top:0.5rem;"><strong>Together:</strong> Efficient modeling of sequences up to 10k items.</p>
           </div>
           <div class="col-fig">
             <figure class="slide-fig">
-              <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" style="height:400px;" />
+              <img src="papers/longer/image/longer-v5.png" alt="LONGER Model Architecture" />
               <figcaption>LONGER Model Architecture</figcaption>
             </figure>
           </div>
         </div>
       </section>
 
-      <!-- Slide 4: Results + Scaling figures -->
+      <!-- Slide 4: Methodology (Training + KV Cache) -->
       <section>
-        <h2>Results</h2>
-        <p style="font-size:1.25rem; margin:0 0 0.5rem 0;">LONGER improves both <strong>accuracy</strong> and <strong>efficiency</strong>.</p>
-        <div class="two-col" style="grid-template-columns: 1fr 1.1fr;">
-          <div class="col-text">
-            <ul style="font-size:1.2rem; margin:0 0 0 1.1em; padding:0;">
-              <li style="margin-bottom:0.35em;"><strong>Offline:</strong> +1.57% AUC vs base; +0.21% vs Transformer.</li>
-              <li style="margin-bottom:0.35em;"><strong>Online:</strong> Douyin Ads +1–2%; E-Commerce +4–8%.</li>
-              <li style="margin-bottom:0.35em;"><strong>Efficiency:</strong> ~50% FLOPs cut.</li>
-            </ul>
-            <table class="simple">
-              <tr><th>Model</th><th>ΔAUC</th></tr>
-              <tr><td>Transformer</td><td>+1.36%</td></tr>
-              <tr><td><strong>LONGER</strong></td><td><strong>+1.57%</strong></td></tr>
-            </table>
-          </div>
-          <div class="col-fig">
-            <figure class="slide-fig">
-              <img src="papers/longer/image/TokenAuc.png" alt="Scaling with sequence length" style="height:380px;" />
-              <figcaption>Scaling with sequence length (AUC)</figcaption>
-            </figure>
-          </div>
+        <h2>Methodology</h2>
+        <p style="font-size:1.1rem; margin:0 0 0.4rem 0;">Training: JAGUAR framework (mixed precision). Inference: KV cache for efficient serving.</p>
+        <div class="fig-grid">
+          <figure>
+            <img src="papers/longer/image/jaguar.png" alt="JAGUAR Training" />
+            <figcaption>JAGUAR Training Framework</figcaption>
+          </figure>
+          <figure>
+            <img src="papers/longer/image/kvcache.png" alt="KV Cache" />
+            <figcaption>KV Cache Serving</figcaption>
+          </figure>
         </div>
       </section>
 
-      <!-- Slide 5: Scaling (Params + FLOPs) -->
+      <!-- Slide 5: Scaling (Length + Params + FLOPs) -->
       <section>
-        <h2>Scaling & Efficiency</h2>
-        <p style="font-size:1.25rem; margin:0 0 0.5rem 0;">Performance scales with <strong>length</strong>, <strong>FLOPs</strong>, <strong>params</strong> (R² ≈ 0.97–0.99).</p>
-        <div class="fig-grid">
+        <h2>Scaling</h2>
+        <p style="font-size:1.1rem; margin:0 0 0.3rem 0;">Performance scales with <strong>length</strong>, <strong>params</strong>, <strong>FLOPs</strong> (R² ≈ 0.97–0.99).</p>
+        <div class="fig-grid-4">
           <figure>
-            <img src="papers/longer/image/ParamsAuc.png" alt="Params vs AUC" style="height:340px;" />
+            <img src="papers/longer/image/TokenAuc.png" alt="TokenAuc" />
+            <figcaption>Token vs AUC</figcaption>
+          </figure>
+          <figure>
+            <img src="papers/longer/image/TokenLoss.png" alt="TokenLoss" />
+            <figcaption>Token vs Loss</figcaption>
+          </figure>
+          <figure>
+            <img src="papers/longer/image/ParamsAuc.png" alt="ParamsAuc" />
             <figcaption>Params vs AUC</figcaption>
           </figure>
           <figure>
-            <img src="papers/longer/image/FlopsAuc.png" alt="FLOPs vs AUC" style="height:340px;" />
+            <img src="papers/longer/image/FlopsAuc.png" alt="FlopsAuc" />
             <figcaption>FLOPs vs AUC</figcaption>
           </figure>
         </div>
       </section>
 
-      <!-- Slide 6: Significance -->
+      <!-- Slide 6: Results -->
+      <section>
+        <h2>Results</h2>
+        <div class="two-col" style="grid-template-columns: 1.15fr 1fr; margin-top: 0.5rem;">
+          <div class="col-text">
+            <p style="font-size:1.15rem; margin-bottom:0.5rem;">LONGER improves both <strong>accuracy</strong> and <strong>efficiency</strong>.</p>
+            <ul style="font-size:1.1rem; margin:0 0 0 1.1em; padding:0;">
+              <li style="margin-bottom:0.4em;"><strong>Offline:</strong> +1.57% AUC vs base; +0.21% vs Transformer.</li>
+              <li style="margin-bottom:0.4em;"><strong>Online:</strong> Douyin Ads +1–2%; E-Commerce +4–8%.</li>
+              <li style="margin-bottom:0.4em;"><strong>Efficiency:</strong> ~50% FLOPs cut.</li>
+            </ul>
+          </div>
+          <div style="min-width:0;">
+            <p style="font-size:1rem; font-weight:600; color:#444; margin-bottom:0.35rem;">Offline AUC Comparison</p>
+            <table class="simple">
+              <tr><th>Model</th><th>ΔAUC vs Base</th></tr>
+              <tr><td>Transformer</td><td>+1.36%</td></tr>
+              <tr><td><strong>LONGER</strong></td><td><strong>+1.57%</strong></td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Significance -->
       <section>
         <h2>Significance</h2>
         <ul style="margin-top:0.4em;">
@@ -142,7 +168,7 @@
         </ul>
       </section>
 
-      <!-- Slide 7: Impact on my research -->
+      <!-- Slide 8: Impact on my research -->
       <section>
         <h2>Impact on My Research</h2>
         <ul style="margin-top:0.4em;">
@@ -153,7 +179,7 @@
         </ul>
       </section>
 
-      <!-- Slide 8: Writing strategies -->
+      <!-- Slide 9: Writing strategies -->
       <section>
         <h2>Writing Strategies I Learned</h2>
         <ul style="margin-top:0.4em;">
@@ -163,15 +189,12 @@
         </ul>
       </section>
 
-      <!-- Slide 9: Summary & Thank you -->
-      <section>
-        <h2>Summary</h2>
-        <p class="takeaway">LONGER enables end-to-end 10k-sequence modeling with ~50% FLOPs cut; scaling laws validated; deployed at ByteDance, billions of users.</p>
-      </section>
-
+      <!-- Slide 10: Summary & Thank you -->
       <section class="center">
-        <h1 style="font-size: 2.4em; margin: 0;">Thank you</h1>
-        <p style="margin-top: 1.5rem; font-size: 1.6rem;">Questions?</p>
+        <h2>Summary</h2>
+        <p class="takeaway" style="margin-top:1rem;">LONGER enables end-to-end 10k-sequence modeling with ~50% FLOPs cut; scaling laws validated; deployed at ByteDance, billions of users.</p>
+        <h1 style="font-size: 2em; margin: 2rem 0 0.5rem 0;">Thank you</h1>
+        <p style="font-size: 1.5rem;">Questions?</p>
       </section>
 
     </div>
