@@ -1,96 +1,128 @@
 # Writing Feedback — YU Wenjun (俞文軍)
 
-YU Wenjun (俞文軍) Student ID: 25480677 Email: 25480677@life.hkbu.edu.hk Programme: PHD COMP | Group: week7 GitHub: https://github.com/freshduer/mccpSpring2026/tree/work2/writing/writingSampleCollection
+## Feedback on YU Wenjun's First Draft: Introduction and Literature Review
 
---- firstDraft.md ---
-My First Draft
-Source Information
-Date written: [Date]
+**Student:** YU Wenjun (俞文軍)
+**Topic:** Near-Real-Time Parameter Synchronization for Deep Learning Recommendation Models (DLRMs)
+**Date:** 2 March 2026
+**Reviewer:** Simon Wang (with AI-assisted analysis)
 
-Context: [What is this draft for? Is it for the course assignment?]
+**Your draft:** writing/writingSampleCollection/firstDraft.md
+**Your reflection:** writing/writingSampleCollection/reflection.md
+**Assessment rubric:** writing/assessment/writing_instructions_formatted.md
 
-Status: [Complete draft / Partial draft - which sections are included?]
+---
 
+## Overall Assessment
 
-Introduction
-Move 1: Establishing a Territory
-Deep Learning Recommendation Models (DLRMs) are fundamental infrastructure powering personalized user experiences across major online platforms. Their operational scale is staggering: within Meta's infrastructure alone, DLRMs consume over 50% of training cycles and 60% of inference resources. This resource footprint stems from their complex architecture, which combines dense neural networks with massive embedding tables (EMTs) storing high-dimensional representations of users and items. Industrial deployments now reach petabyte scale, creating unprecedented systems challenges.
+Your draft demonstrates strong systems research thinking and clear engagement with an industrially relevant problem (DLRM parameter synchronization). You have a well-defined research topic, and your Literature Review shows genuine understanding of the architectural challenges in recommendation systems at scale. The draft has several notable strengths: clear move structure, substantive gap identification (five specific gaps in Move 3), and a strong concluding paragraph that explicitly connects the literature to your proposed approach. The main areas for improvement are: (1) the Introduction needs more citations — several key claims are unsupported; (2) the Literature Review's Move 2 is descriptive rather than critically analytical; and (3) the writing could benefit from tighter synthesis across the different subsections.
 
-Production DLRMs deploy a decoupled architecture, where training clusters continuously update parameters using streaming user interactions, and inference clusters serve predictions using the latest parameters synced via centralized parameter servers. This separation optimizes specialized hardware but introduces severe synchronization overhead across clusters. For example, syncing just 10% of a 200TB EMT over 100GbE networks takes over 26 minutes. During this delay, inference nodes operate with stale parameters, directly degrading recommendation quality.
+**Estimated current level:** Good (7–8 range) — The structure and analytical quality are strong, with clear moves and a genuine research gap. Adding citations, deepening critical analysis, and synthesizing across sources will push this to Excellent.
 
-Maintaining model freshness is crucial for revenue-critical services, as model recommendation accuracy decays rapidly without updates. Industry studies confirm that even a 0.1% accuracy drop can translate to millions in lost revenue, while update delays of more than 5 minutes can measurably reduce user engagement. Therefore, production systems require near-real-time parameter updates. However, synchronizing multi-terabyte EMTs across clusters over commodity networks incurs significant latencies, far exceeding acceptable freshness windows.
-Move 2: Identifying a Niche
-Existing solutions struggle to resolve this tension. Delta-based updates synchronize only changed parameters since the last update, reducing data volume compared to full sync. However, update volumes remain massive, exceeding 10% of EMTs even in short 10-minute windows, still translating to multi-minute synchronization delays. Prioritization-based updates transfer only small subsets of important changed parameters based on gradient magnitude. However, this strategy still incurs multi-minute delays, and magnitude-based heuristics omit semantically critical but low-gradient updates, directly leading to accuracy degradation. Ultimately, these approaches are fundamentally limited by the training-inference decoupled architecture, which intrinsically creates an inter-cluster bandwidth bottleneck.
+---
 
-By examining production traces, we identify two overlooked opportunities. First, inference nodes exhibit sustained CPU underutilization, with peak utilization reaching only 20%, creating significant headroom for local computation. Second, embedding gradients possess a strong intrinsic low-rank structure, where over 80% of parameter update variance can be captured by less than 5% of principal components. This allows updates to be represented compactly as low-rank matrices. Together, these insights enable a paradigm shift: co-locating lightweight training within inference nodes, leveraging idle CPUs to compute compact, low-rank updates, eliminating inter-cluster synchronization entirely while preserving model accuracy.
-Move 3: Occupying the Niche
-Exploiting these opportunities, this paper presents a system that embeds Low-Rank Adaptation (LoRA) trainer directly within inference nodes. Each node performs continuous, local updates to its embeddings using recently cached interaction data. Instead of transmitting raw parameter deltas, it computes and applies updates via compact factors derived from low-rank decomposition, thereby eliminating inter-cluster synchronization and achieving near-real-time freshness.
+## Part 1: Introduction Feedback
 
-However, the design faces two critical challenges. First, the intrinsic low-rankness of updates is dynamic. A fixed LoRA rank is either too small, failing to capture complex updates and degrading accuracy, or too large, wasting memory and compute resources. Second, merging training and inference on the same node exacerbates memory bandwidth contention. The irregular access patterns of online training can directly interfere with inference, causing latency spikes that breach stringent tail-latency SLAs.
+### What Works Well
 
-To address these challenges, the system introduces two core innovations. First, a dynamic rank adaptation mechanism continuously adjusts the LoRA dimension via real-time PCA monitoring and prunes inactive parameters, effectively constraining memory overhead to less than 2% of full EMTs. Second, a performance-isolated training runtime mitigates interference with inference through NUMA-aware resource scheduling and hardware-enforced QoS partitioning, reinforced by data reuse and load-sensitive scheduling. Comprehensive evaluation demonstrates that the system effectively resolves the freshness-accuracy tradeoff, reducing update latency by 2× compared to delta-update approaches while achieving higher accuracy within tight freshness windows.
+- **Move 1 effectively establishes the territory.** You clearly explain why DLRMs matter (trillion-parameter models, industrial deployment at Meta/Google/ByteDance scale) and why embedding tables are the core challenge
+- **Move 2 identifies a genuine, specific gap.** The gap between training-side optimization and inference-side staleness is well-framed and industrially relevant
+- **Move 3 clearly states your research direction.** The shift from "inter-cluster synchronization" to "intra-cluster co-location" is a compelling research pivot
 
+### Issue 1: Citations Are Sparse in the Introduction
 
-Literature Review
-Move 1: Thematic Overview
-We examine the state-of-the-art in Deep Learning Recommendation Models (DLRMs), focusing on their architectural design, industrial deployment strategies, and parameter synchronization mechanisms. The scope encompasses three primary research themes: the fundamental architecture and training paradigms of DLRMs, production system designs that decouple training and inference clusters, and parameter update strategies that balance model freshness, accuracy, and system overhead. This section synthesizes findings from both academic research and industry-scale deployments. By critically analyzing existing approaches and identifying their limitations, the following analysis establishes the foundation for understanding the tradeoffs inherent in maintaining fresh, accurate recommendation models at petabyte scale.
-Move 2: Critical Analysis
-DLRMs process two distinct input types through parallel pathways: dense features are fed into densely connected networks to generate feature representations, while sparse features are encoded as one-hot or multi-hot vectors and mapped to dense embeddings via massive embedding tables (EMTs). The training process leverages historical interaction data to optimize parameters end-to-end using stochastic gradient descent. EMTs undergo dynamic row-wise updates where only embeddings corresponding to IDs in each mini-batch are modified, creating irregular memory access patterns. During inference, the trained DLRM generates real-time predictions through feedforward passes, demanding low-latency execution under strict SLA constraints. The scale of industrial DLRMs has expanded dramatically, with systems reaching petabyte scale, primarily attributed to large EMTs storing the vast majority of model parameters.
+Your Introduction makes several strong claims about industrial DLRM deployments without citations:
 
-Production environments employ a decoupled architecture where training and inference run on separate clusters. Training clusters continuously process streaming user-item interactions to update model parameters, pushing updates to a central parameter server that manages version control. Inference clusters retrieve the latest parameters to serve real-time recommendations. Training workloads face extreme data rates, requiring high batch processing throughput and frequent parameter exchanges over high-bandwidth networks. Inference clusters must maintain strict latency bounds while frequently pulling fresh parameters, employing hybrid CPU-GPU memory hierarchies to provide low latency and massive storage capacity simultaneously.
+**Your sentence (no citation):** "Modern DLRMs deployed at Meta, Google, and ByteDance have evolved from relatively simple shallow architectures into trillion-parameter systems"
 
-Existing deployment frameworks face fundamental limitations. Production systems rely on full-parameter synchronization, transferring entire EMTs from training clusters to parameter servers. While ensuring strong consistency, this approach proves prohibitively expensive, requiring over four hours for 200 TB models over commodity networks, introducing unacceptable staleness. Delta-based synchronization selects priority parameters to transfer, but selection heuristics based on update magnitude omit semantically critical but small-value changes, potentially leading to quality degradation. Even with 5% sampling rates, deltas remain massive, consuming over 14 minutes for transfer, causing unacceptable delays. These approaches are fundamentally limited by the training-inference decoupled architecture, which creates an inter-cluster bandwidth bottleneck.
+This needs citations. Which Meta/Google/ByteDance papers describe these systems? (e.g., DLRM paper from Naumov et al., Deep & Cross Network from Wang et al., etc.)
 
-Maintaining model freshness is crucial, as model accuracy decays rapidly without updates. Even a 0.1% accuracy drop can translate to millions in lost revenue, while update delays exceeding 5 minutes measurably reduce user engagement. Production systems require near-real-time parameter updates, but synchronizing multi-terabyte EMTs incurs significant latencies, highlighting the fundamental tension between freshness, accuracy, and overhead.
-Move 3: Research Gaps
-Several critical research gaps remain unaddressed. First, existing parameter synchronization approaches are fundamentally limited by the training-inference decoupled architecture, which creates an inter-cluster bandwidth bottleneck. Whether employing full-parameter synchronization or delta-based updates, these approaches require transferring massive parameter volumes over network links, resulting in multi-minute delays. Second, computational resources at inference nodes remain underexploited. The sustained CPU underutilization observed in production deployments represents an untapped opportunity for local computation. Third, the intrinsic low-rank structure of embedding updates has not been systematically exploited for efficient synchronization. The strong low-rank structure of embedding gradients, where over 80% of parameter update variance can be captured by less than 5% of principal components, presents an opportunity for compact update representation. Fourth, the dynamic nature of update complexity has not been addressed. Fixed-rank approximations either fail to capture complex updates or waste resources. Fifth, interference between training and inference workloads when co-located has not been systematically studied or mitigated, with performance isolation mechanisms remaining an open research question.
-Move 4: Conclusion
-We examine existing DLRM architectures, industrial deployment strategies, and parameter synchronization mechanisms. While prior work has made significant progress in scaling DLRMs to petabyte scale, we observe that fundamental limitations remain in achieving near-real-time parameter updates without sacrificing accuracy or system stability. In particular, current solutions are inherently constrained by the bandwidth bottlenecks introduced by decoupled training and inference architectures.
+**Your sentence (no citation):** "A single recommendation query may require accessing thousands of sparse features across multiple embedding tables"
 
-Our analysis reveals two underexplored opportunities: the sustained CPU underutilization at inference nodes and the intrinsic low-rank structure of embedding updates. These observations motivate a paradigm shift toward co-locating lightweight training within inference clusters. However, we identify that realizing this shift requires addressing two key challenges—dynamic rank adaptation and performance isolation. The foregoing analysis thus lays the groundwork for our proposed approach, which aims to achieve near-real-time model freshness while preserving accuracy and minimizing system overhead.
+Which system measurement demonstrates this? Production system papers from industry labs often include these numbers.
 
+**Action:** Add citations to every factual claim in the Introduction. As a guide, each paragraph should have 3–5 citations.
 
-Notes
-[Any additional notes about your draft, challenges you faced, questions you have, etc.] See reflection.md
+### Issue 2: Move 2 Could Frame the Gap More Sharply
 
---- reflection.md ---
-My Reflection on Writing
-Writing Challenges and Difficulties
-What aspects of academic writing do you find most challenging? [Describe your challenges - be specific] I find it most challenging to clearly present complex system ideas while keeping the narrative concise and coherent.
+Your Move 2 identifies the synchronization latency problem well but could be more explicit about why existing solutions fail:
 
-What specific difficulties do you face when writing Introduction/Literature Review? [E.g., "I struggle with gap identification", "I find it hard to synthesize multiple sources", "Citations are confusing"] I struggle with clearly identifying and articulating research gaps, especially when synthesizing both academic and industrial work.
+**Stronger framing:** "Current approaches to parameter synchronization — including [full sync approach, citation], [delta-based updates, citation], and [periodic batch updates, citation] — all operate within the training-inference decoupled paradigm. As a result, they are fundamentally bounded by inter-cluster network bandwidth, achieving update freshness on the order of minutes rather than seconds. For applications such as real-time bidding and live content ranking, this staleness directly translates to [quantified business impact, if available]."
 
-What do you struggle with most? [Be honest about your biggest challenges] My biggest challenge is abstracting high-level contributions from detailed system mechanisms.
+### Issue 3: Move 3 Preview Could Be More Specific
 
+Your Move 3 mentions "co-locating lightweight training within inference clusters" but could preview specific technical contributions:
 
-My Writing Process
-How do you approach writing Introduction and Literature Review? [Describe your process - do you start with an outline? Do you write linearly? Do you revise multiple times?] I usually start with a rough outline based on rhetorical moves and refine the structure through multiple revisions.
+**Suggestion:** "Specifically, this work makes three contributions: (1) we propose an in-cluster incremental training architecture that eliminates cross-cluster synchronization; (2) we develop an adaptive low-rank decomposition scheme that exploits the intrinsic structure of embedding updates; and (3) we design a performance isolation mechanism to prevent training workloads from degrading inference latency."
 
-What steps do you take? [List your typical writing steps] I collect related work, group them thematically, draft quickly, and then revise for clarity and flow.
+---
 
-Do you have a particular method or strategy? [Describe any specific methods you use] I follow a problem–limitation–opportunity structure commonly used in systems papers.
+## Part 2: Literature Review Feedback
 
+### What Works Well
 
-How I Use AI for Help
-Do you use AI tools (ChatGPT, Claude, etc.) to help with writing? [Yes/No, and which tools] Yes, I mainly use ChatGPT.
+- **Move 1 (Thematic Overview)** effectively organizes the literature into four themes: DLRM architectures, industrial deployments, parameter management, and real-time update approaches
+- **Move 2 covers substantial ground** — from hash-based embedding (Meta's Compositional Embedding) to low-rank factorization to training-inference co-location
+- **Move 3 identifies five specific gaps** — this is thorough and well-articulated. The gaps about abstraction interoperability, developer effort, and production workload evidence are particularly insightful
+- **Move 4 is strong** — it explicitly connects the literature analysis to your proposed approach, identifying two underexplored opportunities (CPU underutilization and low-rank update structure)
 
-How do you use them? [E.g., for brainstorming, drafting, editing, checking grammar, improving sentences] I use AI to refine sentence clarity, improve academic tone, and rephrase research gaps.
+### Issue 4: Move 2 Tends Toward Description
 
-What prompts do you typically use? [Share examples of prompts you use, if comfortable] Prompts like "rewrite this paragraph more academically" or "help clarify the research gap."
+While you cover many approaches, the analysis within each subsection tends to describe what systems do rather than evaluating how well they work and what their limitations are.
 
-What do you find helpful or not helpful about AI assistance? [Reflect on your experience with AI tools] AI is helpful for language polishing but requires careful checking for technical accuracy.
+**Your sentence (description):** "Recent advances include methods such as Compositional Embedding (CompEmb), which uses hash-based composition to reduce table sizes, and Tensor-Train Decomposition (TTRec), which factorizes embeddings into compact tensor formats."
 
+**With critical analysis:** "Recent compression methods take two distinct approaches: hash-based composition (CompEmb, [citation]) reduces memory by mapping multiple features to shared embedding entries, achieving X% compression but risking hash collisions that degrade recommendation accuracy for tail entities. Tensor-train decomposition (TTRec, [citation]) preserves more structural information through factorization, but introduces computational overhead proportional to the tensor rank, making it less suitable for latency-sensitive serving paths."
 
-My Goals
-What do you hope to improve in your writing? [Be specific about what you want to improve] I want to improve how clearly and persuasively I present research motivations and contributions.
+### Issue 5: Cross-Subsection Synthesis Is Limited
 
-What specific skills do you want to develop? [List the skills you want to work on] Gap identification, synthesis of related work, and high-level academic expression.
+Your four subsections (architecture, deployment, parameter management, real-time updates) are treated somewhat independently. Adding synthesis paragraphs that connect themes would strengthen the review significantly.
 
+**Suggestion:** After the subsections, add a synthesis paragraph: "Across these four themes, a common pattern emerges: optimizations designed for the training phase (e.g., hash-based compression, low-rank decomposition) do not automatically translate to inference-time benefits because the training-inference boundary introduces a synchronization bottleneck. This observation motivates..."
 
-Additional Notes
-Writing this draft helped me realize the importance of structure and storytelling in systems research papers.
+### Issue 6: Some Technical Claims Need Citations
 
-[Any other thoughts about your writing, concerns, questions, etc.]
+Several claims in the Literature Review appear to describe specific measurements or results without citing the source:
 
+- "over 80% of parameter update variance can be captured by less than 5% of principal components" — which paper demonstrates this?
+- "multi-minute delays" for parameter synchronization — from which production system report?
 
+**Action:** Ensure every specific number or measurement has a citation.
 
+---
+
+## Part 3: Language and Process Feedback
+
+### Issue 7: Writing Quality Is Generally Good
+
+Your writing is clear and well-organized. A few areas for improvement:
+- Some sentences are overly long and could be split
+- The phrase "near-real-time" appears frequently — define it precisely once and use it consistently
+
+### Issue 8: Reflection Shows Good Self-Awareness
+
+Your reflection identifies that your biggest challenge is "abstracting high-level contributions from detailed system mechanisms." This is visible in the draft — you handle the system details well but sometimes lose the higher-level argument thread. The solution is to start each paragraph with a topic sentence that states the analytical point, then use system details as evidence for that point.
+
+---
+
+## Summary of Priority Actions
+
+| Priority | Action | Impact |
+|----------|--------|--------|
+| 🔴 High | Add citations throughout the Introduction (every paragraph needs 3–5) | Makes claims evidence-based |
+| 🔴 High | Deepen Move 2 critical analysis — add limitations and comparisons | Transforms description into argument |
+| 🟡 Medium | Add cross-subsection synthesis paragraph(s) | Shows connections across themes |
+| 🟡 Medium | Frame Move 2 gap more sharply with specific failure evidence | Strengthens research motivation |
+| 🟡 Medium | Preview specific contributions in Move 3 | Signals clear research value |
+| 🟢 Lower | Cite all specific numbers and measurements | Improves academic rigor |
+| 🟢 Lower | Define "near-real-time" precisely | Clarifies key concept |
+
+---
+
+## Next Steps
+
+1. Read the [full writing instructions](https://github.com/tesolchina/mccpSpring2026/blob/main/writing/assessment/writing_instructions_formatted.md) carefully
+2. Add citations to every paragraph of the Introduction
+3. Revise Move 2 with critical analysis and cross-method comparisons
+4. Add synthesis paragraphs connecting the four themes
+5. Submit by **15 March 2026** via Moodle forum and Turnitin
