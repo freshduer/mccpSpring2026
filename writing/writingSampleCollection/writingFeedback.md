@@ -15,7 +15,7 @@
 
 ## Overall Assessment
 
-This is a strong draft that demonstrates clear command of academic writing structure and deep understanding of the DLRM systems research landscape. Your Introduction follows the three-move structure effectively: Move 1 establishes the territory with concrete scale figures (50% training cycles, 60% inference at Meta), Move 2 identifies the bandwidth bottleneck with specific numbers (26 minutes for 10% of 200TB), and Move 2's second paragraph pivots elegantly to two overlooked opportunities (CPU underutilization, low-rank structure). The writing is confident, well-paced, and technically precise. The main areas for improvement are: (1) Move 3 is marked as "..." and needs to be completed; (2) the Literature Review section is missing entirely; (3) while the arguments are strong, citations are absent — every quantitative claim needs a reference; and (4) some language patterns suggest AI polishing that could be toned down for more natural academic voice.
+This is a strong draft that demonstrates clear command of academic writing structure and deep understanding of the DLRM systems research landscape. Your Introduction follows the three-move structure effectively: Move 1 establishes the territory with concrete scale figures (50% training cycles, 60% inference at Meta), Move 2 identifies the bandwidth bottleneck with specific numbers (26 minutes for 10% of 200TB), and Move 2's second paragraph pivots elegantly to two overlooked opportunities (CPU underutilization, low-rank structure). The writing is confident, well-paced, and technically precise. The main areas for improvement are: (1) Move 3 is marked as "..." and needs to be completed; (2) the Literature Review section is missing entirely; (3) while the arguments are strong, citations are absent — every quantitative claim needs a reference; and (4) ensure that any AI-assisted passages are substantially revised so the final text reflects your own academic voice.
 
 **Estimated current level:** Good to Excellent (8–9 range) — The structure, argument quality, and technical depth are impressive. Completing the missing sections and adding citations will push this to Excellent.
 
@@ -52,9 +52,9 @@ Move 3 shows only "..." — this is where you state your specific contribution. 
 
 Your draft assumes familiarity with DLRM architecture (embedding tables, training-inference decoupling, parameter servers). While this is appropriate for a systems conference audience, adding one sentence explaining what embedding tables store and why they are so large would help readers from neighboring fields.
 
-### Issue 4: Watch for Over-Polished AI Language
+### Issue 4: Ensure AI-Assisted Text Is Substantially Revised
 
-Some phrases have a slightly formulaic quality that suggests AI polishing: "Their operational scale is staggering," "This resource footprint stems from," "creating unprecedented systems challenges." While individually fine, clustered together they feel generated rather than natural. Consider varying your sentence openings and using more direct language where appropriate.
+You are encouraged to use AI tools throughout your writing process. However, AI-generated text cannot be submitted directly — it must be substantially revised and rewritten in your own voice. Some phrases in your draft have a slightly formulaic quality: "Their operational scale is staggering," "This resource footprint stems from," "creating unprecedented systems challenges." When using AI to help draft or polish, make sure you revise the output so it sounds like you, not like a template. Vary your sentence openings and use more direct language where appropriate.
 
 ---
 
@@ -101,7 +101,7 @@ You note: "I sometimes worry that my introduction doesn't sufficiently motivate 
 | 🔴 High | Complete Move 3 with specific contributions and result preview | Tells readers what the paper delivers |
 | 🔴 High | Write the Literature Review section | Completes the required structure |
 | 🟡 Medium | Add one sentence of background on EMTs for non-specialist readers | Improves accessibility |
-| 🟡 Medium | Vary sentence openings to reduce AI-polished feel | Makes voice more natural |
+| 🟡 Medium | Substantially revise any AI-assisted passages in your own voice | Meets submission requirements |
 | 🟢 Lower | Add user-facing impact connection in Move 1 | Broadens motivation appeal |
 
 ---
