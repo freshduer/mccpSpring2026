@@ -4,9 +4,9 @@
 
 **Date written:** [Date]
 
-**Context:** [What is this draft for? Is it for the course assignment?]
+**Context:** Course assignment for MCCP Spring 2026 (writing sample collection).
 
-**Status:** [Complete draft / Partial draft - which sections are included?]
+**Status:** Complete draft — Introduction (three moves), Literature Review (four moves), and References are included.
 
 ---
 
