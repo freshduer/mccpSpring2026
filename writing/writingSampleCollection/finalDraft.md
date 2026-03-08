@@ -2,7 +2,7 @@
 
 ## Source Information
 
-**Date written:** [Date]
+**Date written:** 8 March 2025
 
 **Context:** Course assignment for MCCP Spring 2026 (writing sample collection).
 
