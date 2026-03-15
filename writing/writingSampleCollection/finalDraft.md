@@ -64,6 +64,18 @@ Our analysis reveals two underexplored opportunities: the sustained CPU underuti
 
 ---
 
+## Declaration of Generative AI and AI-assisted technologies in the writing process
+
+The author(s) used the following AI tools in the preparation of this manuscript:
+
+- **AI tool(s) used:** Cursor (AI-assisted editor).
+- **Purpose of use:** Drafting and rewriting sections of the Introduction and Literature Review, improving clarity and flow, and refining sentence structure.
+- **Extent of oversight:** All AI-assisted text was reviewed, edited and verified by the author. The author took full responsibility for the content, argumentation and accuracy of the manuscript.
+
+Basic checks of grammar, spelling and punctuation were [not used / used and do not require declaration per course guidelines].
+
+---
+
 ## References
 
 Acun, B., Murphy, M., Wang, X., Nie, J., Wu, C.-J., & Hazelwood, K. (2021). Understanding training efficiency of deep learning recommendation models at scale. In *2021 IEEE International Symposium on High-Performance Computer Architecture (HPCA)* (pp. 802–814). IEEE.
