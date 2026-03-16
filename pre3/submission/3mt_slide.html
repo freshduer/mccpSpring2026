@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3MT — LONGER: Making Long Histories Work for Better Recommendations</title>
+  <style>
+    * { box-sizing: border-box; }
+    .slide {
+      width: 100%;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e8e8e8;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide h1 {
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      text-align: center;
+      line-height: 1.25;
+      color: #fff;
+    }
+    .slide .subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      text-align: center;
+      margin: 0 0 2rem;
+      opacity: 0.9;
+    }
+    .diagram {
+      flex: 1;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .diagram-box {
+      text-align: center;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      font-size: clamp(0.8rem, 1.8vw, 1rem);
+      font-weight: 600;
+    }
+    .diagram-box.history {
+      background: rgba(231, 76, 60, 0.25);
+      border: 2px solid #e74c3c;
+      color: #fadbd8;
+    }
+    .diagram-box.core {
+      background: rgba(46, 204, 113, 0.25);
+      border: 2px solid #2ecc71;
+      color: #d5f4e6;
+    }
+    .diagram-box.result {
+      background: rgba(52, 152, 219, 0.25);
+      border: 2px solid #3498db;
+      color: #d6eaf8;
+    }
+    .arrow {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.7);
+      align-self: center;
+    }
+    .takeaway {
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      text-align: center;
+      margin: 0;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: #bdc3c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide" role="img" aria-label="3MT slide: LONGER research story">
+    <h1>When your history is too long to use … we make it count.</h1>
+    <p class="subtitle">LONGER: one slide for a 3-minute thesis</p>
+
+    <div class="diagram">
+      <div class="diagram-box history">
+        Long past<br />behaviours<br /><small>(thousands of items)</small>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="diagram-box core">
+        LONGER<br /><small>compress &amp; focus</small><br /><small>without losing what matters</small>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="diagram-box result">
+        Better recommendations<br /><small>in real apps, at scale</small>
+      </div>
+    </div>
+
+    <p class="takeaway">One picture: from a long, noisy history to a clear signal that helps recommend what you’ll like.</p>
+  </div>
+</body>
+</html>

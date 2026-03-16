@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="50%" style="stop-color:#16213e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <style>
+      .title { font: bold 32px Arial, sans-serif; fill: #fff; text-anchor: middle; }
+      .subtitle { font: 18px Arial, sans-serif; fill: #e8e8e8; text-anchor: middle; }
+      .box-text { font: bold 16px Arial, sans-serif; text-anchor: middle; }
+      .box-small { font: 12px Arial, sans-serif; text-anchor: middle; }
+      .takeaway { font: 14px Arial, sans-serif; fill: #bdc3c7; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <text x="480" y="80" class="title">When your history is too long to use ... we make it count.</text>
+  <text x="480" y="110" class="subtitle">LONGER: one slide for a 3-minute thesis</text>
+
+  <rect x="80" y="180" width="200" height="120" rx="12" fill="rgba(231,76,60,0.25)" stroke="#e74c3c" stroke-width="2"/>
+  <text x="180" y="220" class="box-text">Long past</text>
+  <text x="180" y="240" class="box-text">behaviours</text>
+  <text x="180" y="265" class="box-small">(thousands of items)</text>
+
+  <text x="320" y="245" fill="rgba(255,255,255,0.7)" font-size="28">&#8594;</text>
+
+  <rect x="360" y="180" width="240" height="120" rx="12" fill="rgba(46,204,113,0.25)" stroke="#2ecc71" stroke-width="2"/>
+  <text x="480" y="215" class="box-text">LONGER</text>
+  <text x="480" y="240" class="box-small">compress &amp; focus</text>
+  <text x="480" y="260" class="box-small">without losing what matters</text>
+
+  <text x="640" y="245" fill="rgba(255,255,255,0.7)" font-size="28">&#8594;</text>
+
+  <rect x="680" y="180" width="200" height="120" rx="12" fill="rgba(52,152,219,0.25)" stroke="#3498db" stroke-width="2"/>
+  <text x="780" y="220" class="box-text">Better</text>
+  <text x="780" y="240" class="box-text">recommendations</text>
+  <text x="780" y="265" class="box-small">in real apps, at scale</text>
+
+  <rect x="120" y="340" width="720" height="50" rx="8" fill="rgba(255,255,255,0.08)"/>
+  <text x="480" y="372" class="takeaway">One picture: from a long, noisy history to a clear signal that helps recommend what you&#39;ll like.</text>
+</svg>
