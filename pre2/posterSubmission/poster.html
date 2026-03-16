@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LONGER: Scaling Up Long Sequence Modeling in Industrial Recommenders</title>
+  <style>
+    /* A0 portrait: 841mm × 1189mm — scale for screen; use print CSS or export at 600dpi for submission */
+    * { box-sizing: border-box; }
+    .poster {
+      width: 841px;
+      min-height: 1189px;
+      max-width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      font-size: 16px;
+      color: #222;
+    }
+    .poster-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 2px solid #2c3e50;
+    }
+    .logo-placeholder { font-size: 14px; color: #666; }
+    .poster-title-block { text-align: center; }
+    .poster-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 38px;
+      font-weight: bold;
+      margin: 0 0 8px;
+      color: #1a1a2e;
+      line-height: 1.2;
+    }
+    .poster-meta {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 22px;
+      color: #444;
+    }
+    .dept-placeholder { text-align: right; font-size: 14px; color: #666; }
+    main { padding: 24px 32px; }
+    .layman {
+      background: #e8f4f8;
+      border-left: 4px solid #3498db;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 20px;
+      line-height: 1.4;
+    }
+    .layman strong { display: block; margin-bottom: 6px; font-family: Arial, sans-serif; font-size: 22px; color: #2c3e50; }
+    section { margin-bottom: 24px; }
+    section h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0 0 12px;
+      color: #1a1a2e;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 6px;
+    }
+    section p, section li {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 18px;
+      line-height: 1.45;
+      margin: 0 0 8px;
+    }
+    section ul { margin: 0 0 12px; padding-left: 1.4em; }
+    .visual-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .visual-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .visual-box {
+      min-height: 140px;
+      border: 2px solid #bdc3c7;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #7f8c8d;
+      background: #f8f9fa;
+    }
+    .poster-fig {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      display: block;
+      background: #fafafa;
+    }
+    .fig-caption {
+      font-size: 14px;
+      color: #555;
+      margin-top: 6px;
+      text-align: center;
+    }
+    .highlight-box {
+      background: #fef5e7;
+      border: 1px solid #f39c12;
+      padding: 12px 16px;
+      margin: 12px 0;
+      font-size: 17px;
+    }
+    .references { font-size: 16px; }
+    .references li { margin-bottom: 4px; }
+    table.poster-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    table.poster-table th, table.poster-table td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    table.poster-table th { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <article class="poster" id="poster-canvas">
+    <header class="poster-header">
+      <div class="logo-placeholder">[HKBU logo]</div>
+      <div class="poster-title-block">
+        <h1 class="poster-title">LONGER: Scaling Up Long Sequence Modeling in Industrial Recommenders</h1>
+        <p class="poster-meta">Presenter: [Wenjun Yu]</p>
+      </div>
+      <div class="dept-placeholder">Department of Mathematics</div>
+    </header>
+    <main>
+      <div class="layman">
+        <strong>Layman's summary</strong>
+        Recommendation systems need to use long histories of user behavior to predict what users will like. Existing methods either compress this history too much or use two separate steps that don’t match well. We propose LONGER, a transformer built for industry that models very long behavior sequences (up to 10,000 steps) in one end-to-end way. It cuts computation by about half while keeping accuracy, and has been deployed at ByteDance for billions of users in ads and e-commerce.
+      </div>
+
+      <section>
+        <h2>Introduction</h2>
+        <p>Ultra-long user behavior sequences capture both long- and short-term preferences. Current industry practice uses <strong>two-stage retrieval</strong> (e.g. SIM, TWIN), <strong>pre-trained user embeddings</strong>, or <strong>memory-augmented</strong> models—leading to upstream–downstream inconsistency or indirect modeling. We aim for <strong>end-to-end</strong> ultra-long sequence modeling with GPU efficiency.</p>
+        <p><strong>Contribution:</strong> We present <strong>LONGER</strong> (Long-sequence Optimized traNsformer for GPU-Efficient Recommenders): (i) global tokens for stable attention; (ii) token merge + InnerTrans + hybrid attention (~50% FLOPs reduction); (iii) mixed-precision &amp; recompute, KV cache serving, and synchronous GPU training/serving. LONGER scales sequence length to 10,000 end-to-end and is deployed in dozens of scenarios at ByteDance.</p>
+      </section>
+
+      <section>
+        <h2>Methodology</h2>
+        <ul>
+          <li><strong>Global tokens:</strong> Target item, UID, CLS, etc., for global anchoring and stable attention.</li>
+          <li><strong>Token merge:</strong> Group adjacent tokens (factor K); optional <strong>InnerTrans</strong> within groups to keep local interactions. Reduces sequence length and ~50% FLOPs.</li>
+          <li><strong>Hybrid attention:</strong> First layer = cross-causal attention (query = global + sampled recent tokens); subsequent layers = self-causal attention. Enables KV cache serving (user sequence computed once, reused across candidates).</li>
+          <li><strong>Engineering:</strong> Fully synchronous training/serving; dense + sparse on GPU; mixed-precision &amp; activation recomputation; KV cache at inference.</li>
+        </ul>
+        <figure style="margin:12px 0;">
+          <img src="images/longer-v5.png" alt="LONGER model architecture" class="poster-fig" width="800" height="auto" />
+          <figcaption class="fig-caption">Figure 1: LONGER model architecture (global tokens, token merge, hybrid attention).</figcaption>
+        </figure>
+        <div class="visual-row">
+          <figure style="margin:0;">
+            <img src="images/jaguar.png" alt="Training framework" class="poster-fig" />
+            <figcaption class="fig-caption">Training framework (Fountain, GPU runners, unified dense/sparse).</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="images/kvcache.png" alt="KV cache serving" class="poster-fig" />
+            <figcaption class="fig-caption">KV cache serving (throughput degradation −40% → −6.8%).</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section>
+        <h2>Results</h2>
+        <p><strong>Offline (Douyin Ads, CVR, 5.2B samples):</strong> LONGER achieves <strong>AUC 0.85290</strong>, <strong>LogLoss 0.47103</strong>—+1.57% AUC / −3.39% LogLoss vs base; +0.21% AUC vs strongest baseline (Transformer) with much lower FLOPs. Ablation: TokenMerge + InnerTrans and “recent k” query selection (e.g. k=100) give best trade-off.</p>
+        <table class="poster-table">
+          <thead><tr><th>Model</th><th>AUC↑</th><th>LogLoss↓</th><th>ΔAUC(%)</th></tr></thead>
+          <tbody>
+            <tr><td>Base</td><td>0.83968</td><td>0.48758</td><td>—</td></tr>
+            <tr><td>DIN (Recent50)</td><td>0.84698</td><td>0.47830</td><td>+0.87</td></tr>
+            <tr><td>Transformer</td><td>0.85111</td><td>0.47293</td><td>+1.36</td></tr>
+            <tr><td><strong>LONGER</strong></td><td><strong>0.85290</strong></td><td><strong>0.47103</strong></td><td><strong>+1.57</strong></td></tr>
+          </tbody>
+        </table>
+        <p><strong>Scaling:</strong> AUC and LogLoss follow power-law with sequence length, FLOPs, and parameters; longer sequences and appropriate depth improve performance.</p>
+        <div class="visual-row">
+          <figure style="margin:0;">
+            <img src="images/TokenAuc.png" alt="Sequence length vs AUC" class="poster-fig" />
+            <figcaption class="fig-caption">Sequence length vs AUC.</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="images/TokenLoss.png" alt="Sequence length vs LogLoss" class="poster-fig" />
+            <figcaption class="fig-caption">Sequence length vs LogLoss.</figcaption>
+          </figure>
+        </div>
+        <p><strong>Online A/B:</strong> Douyin Ads (ADSS/ADVV): +1.06%–2.10% across Live/Short Video/Mall. Douyin E-Commerce (Order/U, GMV/U): +4.6%–7.9% (Live), +4.6%–5.3% (Short Video).</p>
+      </section>
+
+      <section>
+        <h2>Discussion / Conclusion</h2>
+        <p>LONGER enables end-to-end ultra-long sequence modeling in industrial recommenders via global tokens, token merge with InnerTrans, hybrid causal attention, and system optimizations. It improves both offline metrics and online A/B in ads and e-commerce at ByteDance, with lower computation and latency. Future work: more efficient sequence modeling and cross-domain behavior modeling.</p>
+      </section>
+
+      <section class="references">
+        <h2>References</h2>
+        <ul>
+          <li>Chai et al. LONGER: Scaling Up Long Sequence Modeling in Industrial Recommenders. RecSys 2025.</li>
+          <li>SIM (Pi et al.), TWIN (Chang et al.), DIN (Zhou et al.), HSTU (Zhai et al.), M-FALCON — baselines and related work.</li>
+        </ul>
+      </section>
+    </main>
+  </article>
+</body>
+</html>
