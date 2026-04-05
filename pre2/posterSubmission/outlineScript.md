@@ -1,10 +1,49 @@
-# Outline and script for LONGER poster presentation (2–3 minutes)
+# Outline and script for LONGER poster presentation
 
-Use this outline and script for the oral presentation that accompanies the poster, then take questions.
+Use the **2-minute** block below for a timed pitch; the longer script is optional if the session allows 2.5–3 minutes.
 
 ---
 
-## Presentation outline
+## 2-minute presentation (use this for a strict 2:00 cap)
+
+**Target:** ~260 spoken words + pauses ≈ 2:00. Rehearse with a phone timer; if you run long, drop the sentence marked *(optional)*.
+
+### Timing map
+
+| Time | Block | What to point at on the poster |
+|------|--------|--------------------------------|
+| 0:00–0:20 | Hook + title | Title, Layman’s summary |
+| 0:20–0:45 | Problem / gap | Introduction (two-stage vs end-to-end) |
+| 0:45–1:25 | Method (3 beats) | Figure 1: global tokens → merge + InnerTrans → hybrid attention; training + KV figures |
+| 1:25–1:50 | Results + impact | Results table; *(optional)* one online range |
+| 1:50–2:00 | Close | Discussion one-liner; “Questions?” |
+
+### Script (~2 minutes)
+
+**0:00 — Opening**  
+“Hi — I’ll present **LONGER**: scaling **long-sequence modeling** for industrial recommenders. In one line: we model up to **ten thousand** behavior steps **end-to-end**, cut FLOPs by about **half**, and ship it at ByteDance scale.”
+
+**0:20 — Problem**  
+“Long histories capture both long- and short-term preferences. Common practice uses **two-stage retrieval** like SIM or TWIN, or indirect signals — that creates **mismatch** or **indirect** use of the raw sequence. We want **end-to-end** long-sequence modeling that stays **GPU-efficient**.”
+
+**0:45 — Method**  
+“**LONGER** uses three ideas. **Global tokens** — target item, user ID — **anchor** attention on long contexts. **Token merge** with **InnerTrans** inside groups keeps local interactions while shortening the sequence — about **fifty percent** fewer FLOPs. **Hybrid attention**: the first layer crosses globals and **recent** behavior with the full history; later layers are self-attention on the compressed sequence. That enables **KV cache**: compute the user once, **reuse** across candidates — the poster shows throughput much better than without cache.” *(optional)* “We also use mixed precision and synchronous GPU training and serving.”
+
+**1:25 — Results**  
+“Offline on Douyin Ads CVR, LONGER reaches the best **AUC** and **LogLoss** in our table — about **plus one point six percent** AUC versus the base. **Online A/B** shows gains in ads and e-commerce.” *(optional)* “For example, e-commerce live streams see strong lifts on order and GMV per user.”
+
+**1:50 — Close**  
+“So: **structure plus systems** make ultra-long sequences practical in production. Happy to take questions — thanks.”
+
+### One-page cheat sheet (read before you go on)
+
+- **One sentence:** End-to-end 10k-length transformer for recommenders; ~50% FLOPs; deployed at scale.
+- **Three method keywords:** global tokens; token merge + InnerTrans; hybrid attention + KV cache.
+- **Two numbers:** offline +1.57% AUC vs base (poster table); KV figure −40% → −6.8% degradation.
+
+---
+
+## Presentation outline (2.5–3 minutes)
 
 1. **Opening (15–20 s)**  
    Title + one-sentence takeaway: what LONGER is, what problem it addresses, and the main result.
@@ -63,7 +102,7 @@ Use this outline and script for the oral presentation that accompanies the poste
 
 ## Timing checklist
 
-- [ ] Rehearse with a timer; stay within 2–3 minutes.
+- [ ] Rehearse with a timer: **2:00** (use the 2-minute script above) or **2:30–3:00** (longer script).
 - [ ] Point at the poster: title, Layman’s summary, architecture figure, training/KV figures, results table and curves.
-- [ ] Prepare 2–3 backup answers for “if they ask about X” (e.g. token merge, KV cache, online metrics).
+- [ ] Prepare 2–3 backup answers for “if they ask about X” (e.g. token merge, KV cache, online metrics); see `anticipated_QA.md`.
 - [ ] Practise one sentence each for: problem, gap, contribution, result, impact.
